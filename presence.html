@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <!-- Layout (header, sidebar, loading overlay) akan di-generate oleh utils.js di sini -->
+
     <div class="container">
         <h1>Absensi Siswa</h1>
         <p style="text-align: center; margin-bottom: 20px;">
@@ -16,6 +18,21 @@
 
         <div id="success-message" class="success-message"></div>
         <div id="error-message" class="error-message"></div>
+
+        <!-- Filter per kelas -->
+        <div class="recap-controls" style="margin-bottom: 25px;">
+            <div class="form-group" style="flex: 1;">
+                <label for="filter-class-presence">Filter Kelas:</label>
+                <select id="filter-class-presence">
+                    <option value="">Semua Kelas</option>
+                    <!-- Options will be populated by JavaScript -->
+                    <option value="7">Kelas 7</option>
+                    <option value="8">Kelas 8</option>
+                    <option value="9">Kelas 9</option>
+                </select>
+            </div>
+            <button id="apply-filter-presence" class="btn-secondary" style="min-width: 100px;">Terapkan Filter</button>
+        </div>
 
         <div id="presence-table-container" style="max-height: 500px; overflow-y: auto;">
             <table id="presence-table">
@@ -28,7 +45,8 @@
                     </tr>
                 </thead>
                 <tbody id="presence-list-body">
-                    </tbody>
+                    <!-- Daftar siswa dan opsi kehadiran akan dimuat di sini -->
+                </tbody>
             </table>
         </div>
         <button id="save-presence-button" style="margin-top: 25px;">Simpan Absensi</button>

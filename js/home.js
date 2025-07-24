@@ -31,7 +31,7 @@ onAuthStateChanged(auth, (user) => {
 
         // Inisialisasi tombol logout dan hamburger menu
         initializePage(auth, signOut);
-        addFooter(); // Tambahkan footer setelah konten utama dimuat
+        addFooter(); // Tambahkan footer setelah konten utama dimuat dan data guru dimuat
     } else {
         window.location.href = "index.html";
     }

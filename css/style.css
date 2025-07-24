@@ -1,19 +1,20 @@
-/* css/style.css - Disesuaikan dengan tampilan gambar yang diberikan */
+/* css/style.css - Disesuaikan untuk tampilan profesional dan responsif */
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 
 :root {
-    --primary-color: #4CAF50; /* Hijau Utama dari gambar */
+    --primary-color: #4CAF50; /* Hijau Utama */
     --primary-dark: #388E3C; /* Hijau Lebih Gelap untuk hover/active */
     --primary-light: #C8E6C9; /* Hijau Sangat Terang untuk latar belakang */
-    --accent-color: #FFC107; /* Kuning (opsional, jika ada elemen aksen) */
+    --accent-color: #FFC107; /* Kuning (opsional, untuk aksen atau highlight) */
     --text-color-dark: #333;
     --text-color-light: #f9f9f9;
     --bg-light: #f9f9f9; /* Latar belakang body/container */
     --bg-sidebar: #4CAF50; /* Latar belakang sidebar */
     --border-color: #ddd;
     --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.1);
-    --shadow-heavy: 0 4px 15px rgba(0, 0, 0, 0.2);
+    --shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.15);
+    --shadow-heavy: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
 body {
@@ -23,15 +24,18 @@ body {
     background-color: var(--bg-light);
     color: var(--text-color-dark);
     line-height: 1.6;
-    display: flex;
-    min-height: 100vh;
-    overflow-x: hidden; /* Mencegah scroll horizontal saat sidebar terbuka */
+    display: flex; /* Menggunakan flexbox untuk layout utama */
+    flex-direction: column; /* Menumpuk konten secara vertikal: page-wrapper di atas, footer di bawah */
+    min-height: 100vh; /* Memastikan body setidaknya setinggi viewport */
+    overflow-x: hidden; /* Mencegah scroll horizontal yang tidak diinginkan */
 }
 
 /* --- Layout Wrapper (untuk membagi sidebar dan konten utama) --- */
+/* Ini adalah kontainer utama yang akan menjadi flex-row di desktop */
 .page-wrapper {
     display: flex;
     width: 100%;
+    flex-grow: 1; /* Memastikan page-wrapper mengisi ruang yang tersedia */
     transition: margin-left 0.3s ease; /* Untuk animasi konten saat sidebar terbuka */
 }
 
@@ -41,10 +45,10 @@ body {
     background-color: var(--bg-sidebar);
     color: var(--text-color-light);
     padding: 20px 0;
-    box-shadow: var(--shadow-heavy);
-    position: fixed;
+    box-shadow: var(--shadow-heavy); /* Efek shadow yang lebih kuat */
+    position: fixed; /* Sidebar fixed di mobile */
     height: 100%;
-    left: -250px; /* Sembunyikan sidebar secara default */
+    left: -250px; /* Sembunyikan sidebar secara default di mobile */
     top: 0;
     z-index: 1100; /* Lebih tinggi dari header */
     transition: left 0.3s ease-in-out;
@@ -61,6 +65,15 @@ body {
     padding: 15px 0 30px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     margin-bottom: 20px;
+}
+
+.sidebar-header img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    object-fit: cover;
+    border: 2px solid var(--accent-color); /* Border aksen untuk logo */
 }
 
 .sidebar-header h2 {
@@ -87,7 +100,7 @@ body {
     transition: background-color 0.3s ease, padding-left 0.3s ease;
 }
 
-.sidebar-nav li a i { /* Untuk ikon jika ada */
+.sidebar-nav li a i {
     margin-right: 15px;
     font-size: 1.2em;
 }
@@ -118,26 +131,26 @@ body {
     visibility: visible;
 }
 
-/* --- Main Content Area --- */
+/* --- Main Content Area (Konten utama yang beradaptasi) --- */
 .main-content-area {
-    flex-grow: 1;
-    margin-left: 0; /* Default: tidak ada margin karena sidebar tersembunyi */
+    flex-grow: 1; /* Memastikan konten utama mengisi sisa ruang horizontal di desktop */
+    margin-left: 0; /* Default: tidak ada margin karena sidebar tersembunyi di mobile */
     transition: margin-left 0.3s ease;
     display: flex;
-    flex-direction: column; /* Untuk menempatkan header utama di atas konten */
-    width: 100%; /* Memastikan ini mengambil lebar penuh */
+    flex-direction: column; /* Menumpuk header, konten, dan footer (jika ada di sini) secara vertikal */
+    width: 100%; /* Memastikan ini mengambil lebar penuh yang tersedia */
 }
 
-/* Top Header (untuk hamburger menu dan judul) */
+/* Top Header (untuk hamburger menu dan judul aplikasi) */
 .top-header {
     background-color: var(--primary-color);
     color: var(--text-color-light);
     padding: 15px 20px;
-    box-shadow: var(--shadow-light);
+    box-shadow: var(--shadow-medium); /* Shadow untuk header */
     display: flex;
     align-items: center;
     justify-content: space-between;
-    z-index: 1000; /* Di atas konten */
+    z-index: 1000;
 }
 
 .top-header .hamburger-menu {
@@ -145,7 +158,7 @@ body {
     flex-direction: column;
     cursor: pointer;
     gap: 4px;
-    padding: 5px; /* Tambahkan padding agar mudah diklik */
+    padding: 5px;
 }
 
 .top-header .hamburger-menu .bar {
@@ -170,26 +183,29 @@ body {
 .top-header .app-title {
     font-size: 1.6em;
     font-weight: 700;
-    flex-grow: 1; /* Biarkan mengisi ruang */
-    text-align: center; /* Pusatkan teks */
+    flex-grow: 1;
+    text-align: center;
 }
-.top-header .dummy-space { /* Untuk menyeimbangkan hamburger menu di kiri */
-    width: 35px; /* Kira-kira lebar hamburger menu + padding */
+.top-header .dummy-space {
+    width: 35px; /* Untuk menyeimbangkan hamburger menu di kiri */
 }
 
 
 .main-content-container {
     padding: 25px 20px;
-    flex-grow: 1; /* Mengisi sisa ruang vertikal */
+    flex-grow: 1; /* Memastikan konten utama mengisi sisa ruang vertikal */
+    display: flex; /* Menggunakan flexbox untuk konten utama */
+    flex-direction: column; /* Konten di dalamnya menumpuk secara vertikal */
+    align-items: center; /* Pusatkan konten horizontal */
 }
 
 .container {
     background-color: #fff;
     padding: 30px;
     border-radius: 10px;
-    box-shadow: var(--shadow-light);
-    width: 100%;
-    max-width: 900px;
+    box-shadow: var(--shadow-light); /* Shadow untuk container utama */
+    width: 100%; /* Ambil lebar penuh dari main-content-container */
+    max-width: 900px; /* Batasi lebar maksimal untuk estetika */
     margin: 0 auto; /* Pusatkan container */
     box-sizing: border-box;
 }
@@ -255,7 +271,7 @@ button:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.btn-secondary { /* Contoh tombol lain (jika ada) */
+.btn-secondary {
     background-color: #6c757d;
 }
 .btn-secondary:hover {
@@ -314,10 +330,11 @@ th, td {
     padding: 15px;
     text-align: left;
     border-bottom: 1px solid var(--border-color);
+    min-width: 80px;
 }
 
 th {
-    background-color: var(--primary-color); /* Header tabel hijau */
+    background-color: var(--primary-color);
     color: var(--text-color-light);
     font-weight: 600;
     position: sticky;
@@ -329,36 +346,33 @@ th:first-child { border-top-left-radius: 8px; }
 th:last-child { border-top-right-radius: 8px; }
 
 tr:nth-child(even) {
-    background-color: #f2f2f2; /* Warna latar belakang baris genap */
+    background-color: #f2f2f2;
 }
 
 tr:hover {
-    background-color: var(--primary-light); /* Hijau muda saat hover */
+    background-color: var(--primary-light);
     transition: background-color 0.2s ease;
 }
 
+.action-buttons {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 5px;
+    justify-content: flex-start;
+    align-items: center;
+    min-width: 120px;
+}
+
 .action-buttons button {
-    margin-right: 8px;
-    padding: 8px 15px;
-    font-size: 0.9em;
-    box-shadow: none;
-    border-radius: 4px;
+    margin-right: 0;
+    padding: 6px 10px;
+    font-size: 0.85em;
+    flex-shrink: 0;
 }
 .action-buttons button:hover {
     transform: translateY(0);
 }
-.action-buttons .btn-danger {
-    background-color: #dc3545;
-}
-.action-buttons .btn-danger:hover {
-    background-color: #c82333;
-}
-.action-buttons .btn-secondary { /* Untuk tombol edit */
-    background-color: #6c757d;
-}
-.action-buttons .btn-secondary:hover {
-    background-color: #5a6268;
-}
+
 
 /* Specific for Presence Page */
 .presence-options label {
@@ -367,7 +381,7 @@ tr:hover {
     margin-right: 20px;
     font-weight: normal;
     cursor: pointer;
-    color: var(--text-color-dark); /* Agar teks opsi terlihat */
+    color: var(--text-color-dark);
 }
 
 .presence-options input[type="radio"] {
@@ -383,7 +397,7 @@ tr:hover {
     margin-bottom: 25px;
     align-items: flex-end;
     flex-wrap: wrap;
-    background-color: #fff; /* Latar putih untuk control panel */
+    background-color: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: var(--shadow-light);
@@ -397,12 +411,17 @@ tr:hover {
     min-width: 120px;
 }
 
+/* Container untuk tabel agar bisa di-scroll horizontal di mobile */
+#student-list-table-container,
+#presence-table-container,
 #recap-table-container {
     max-height: 600px;
     overflow-y: auto;
     border: 1px solid var(--border-color);
     border-radius: 8px;
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 /* --- Loading Overlay --- */
@@ -412,7 +431,7 @@ tr:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.85); /* Sedikit lebih opaque */
+    background-color: rgba(255, 255, 255, 0.85);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -446,8 +465,14 @@ tr:hover {
     color: var(--text-color-light);
     text-align: center;
     padding: 20px 0;
-    margin-top: auto; /* Push footer ke bawah */
+    margin-top: auto; /* Ini penting untuk mendorong footer ke bawah */
     box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Pastikan footer mengambil lebar penuh */
+    box-sizing: border-box; /* Pastikan padding dihitung dalam lebar */
+}
+
+.footer-social {
+    margin-top: 10px;
 }
 
 .footer-social a {
@@ -458,15 +483,25 @@ tr:hover {
     transition: color 0.3s ease;
 }
 .footer-social a:hover {
-    color: var(--accent-color); /* Kuning saat hover */
+    color: var(--accent-color);
 }
 
 /* --- Responsiveness (Desktop View) --- */
 @media (min-width: 769px) {
+    body {
+        flex-direction: row; /* Di desktop, body menjadi row untuk sidebar dan konten */
+    }
+
+    .page-wrapper {
+        flex-direction: row; /* page-wrapper juga row */
+        /* Pastikan page-wrapper tidak memiliki max-width yang membatasi */
+        max-width: none;
+    }
+
     .sidebar {
         position: relative; /* Di desktop, sidebar menjadi bagian dari layout normal */
-        left: 0;
-        min-width: 250px; /* Pastikan lebar tetap */
+        left: 0; /* Pastikan terlihat */
+        min-width: 250px; /* Lebar tetap untuk sidebar */
         height: auto; /* Tidak fixed height */
         box-shadow: none; /* Hapus shadow saat tidak overlay */
         padding-top: 50px; /* Sesuaikan padding agar tidak terlalu mepet header */
@@ -475,6 +510,8 @@ tr:hover {
 
     .main-content-area {
         margin-left: 0; /* Tidak ada margin tambahan */
+        flex-grow: 1; /* Pastikan ini mengisi semua ruang yang tersisa */
+        width: auto; /* Biarkan flex-grow menentukan lebar */
     }
 
     .top-header .hamburger-menu {
@@ -482,7 +519,7 @@ tr:hover {
     }
     .top-header .app-title {
         text-align: left; /* Geser judul ke kiri */
-        margin-left: 20px; /* Beri jarak dari kiri */
+        margin-left: 20px;
     }
      .top-header .dummy-space {
         display: none;
@@ -491,20 +528,28 @@ tr:hover {
         display: none !important; /* Pastikan overlay tidak muncul */
     }
 
-    /* Adjust page-wrapper margin if needed, but for fixed sidebar, it's not crucial */
     .page-wrapper.sidebar-open {
-        margin-left: 250px; /* Menggeser konten utama ke kanan saat sidebar "terbuka" (padahal memang selalu ada) */
+        margin-left: 0; /* Tidak perlu menggeser konten utama jika sidebar fixed */
+    }
+
+    /* Pastikan container di dalam main-content-container tetap di tengah dan tidak menyusut */
+    .main-content-container {
+        align-items: center; /* Tetap pusatkan konten */
+    }
+    .container {
+        width: 100%; /* Ambil lebar penuh dari main-content-container */
+        max-width: 900px; /* Batasi lebar maksimal untuk estetika */
     }
 }
 
-/* --- Responsiveness (Mobile View - sama seperti sebelumnya tapi disesuaikan dengan layout baru) --- */
+/* --- Responsiveness (Mobile View) --- */
 @media (max-width: 768px) {
     body {
-        flex-direction: column; /* Mengatasi flex-row dari page-wrapper */
+        flex-direction: column; /* Body kembali menumpuk vertikal di mobile */
     }
 
     .page-wrapper {
-        flex-direction: column; /* Stacking di mobile */
+        flex-direction: column; /* page-wrapper juga menumpuk di mobile */
         margin-left: 0 !important; /* Pastikan tidak ada margin */
     }
 
@@ -547,51 +592,33 @@ tr:hover {
         min-width: auto;
     }
 
-    table, thead, tbody, th, td, tr {
-        display: block;
+    /* Tabel di mobile: Tetap horizontal dengan scroll */
+    table {
+        width: 100%;
     }
 
     thead tr {
-        position: absolute;
-        top: -9999px;
-        left: -9999px;
-    }
-
-    tr {
-        border: 1px solid var(--border-color);
-        margin-bottom: 15px;
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: var(--shadow-light);
-    }
-
-    td {
-        border: none;
-        border-bottom: 1px solid var(--border-color);
         position: relative;
-        padding-left: 50%;
-        text-align: right;
-    }
-
-    td:last-child {
-        border-bottom: none;
     }
 
     td:before {
-        content: attr(data-label);
-        position: absolute;
-        left: 10px;
-        width: calc(50% - 20px);
-        padding-right: 10px;
+        content: none; /* Hapus label data untuk tampilan horizontal */
+    }
+
+    th, td {
+        padding: 10px;
         white-space: nowrap;
-        text-align: left;
-        font-weight: bold;
-        color: var(--primary-color);
+    }
+
+    #student-list-table-container,
+    #presence-table-container,
+    #recap-table-container {
+        overflow-x: auto; /* Memungkinkan scroll horizontal */
     }
 
     .presence-options label {
-        display: block;
-        margin-bottom: 5px;
+        display: inline-flex;
+        margin-right: 15px;
     }
 
     .footer {

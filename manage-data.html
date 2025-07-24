@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <!-- Layout (header, sidebar, loading overlay) akan di-generate oleh utils.js di sini -->
+
     <div class="container">
         <h1>Manage Data Absensi</h1>
 
@@ -35,6 +37,10 @@
             <input type="text" id="student-name" placeholder="Masukkan nama siswa" required>
         </div>
         <div class="form-group">
+            <label for="student-nisn">NISN:</label>
+            <input type="text" id="student-nisn" placeholder="Masukkan NISN siswa (opsional)">
+        </div>
+        <div class="form-group">
             <label for="student-class">Kelas:</label>
             <input type="text" id="student-class" placeholder="Contoh: XII IPA 1" required>
         </div>
@@ -49,12 +55,14 @@
                     <tr>
                         <th data-label="No">No</th>
                         <th data-label="Nama Siswa">Nama Siswa</th>
+                        <th data-label="NISN">NISN</th> <!-- Tambah kolom NISN -->
                         <th data-label="Kelas">Kelas</th>
                         <th data-label="Aksi">Aksi</th>
                     </tr>
                 </thead>
                 <tbody id="student-list-body">
-                    </tbody>
+                    <!-- Data siswa akan dimuat di sini oleh JavaScript -->
+                </tbody>
             </table>
         </div>
     </div>

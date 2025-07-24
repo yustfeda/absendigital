@@ -6,9 +6,12 @@
     <title>Rekap Absen - Absen Digital</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <!-- Untuk export ke Excel/CSV -->
     <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
 </head>
 <body>
+    <!-- Layout (header, sidebar, loading overlay) akan di-generate oleh utils.js di sini -->
+
     <div class="container">
         <h1>Rekap Absensi Siswa</h1>
 
@@ -24,10 +27,11 @@
                 <label for="select-class">Pilih Kelas:</label>
                 <select id="select-class">
                     <option value="">Semua Kelas</option>
-                    </select>
+                    <!-- Opsi kelas akan dimuat di sini -->
+                </select>
             </div>
             <button id="show-recap-button" class="btn-secondary">Tampilkan Rekap</button>
-            <button id="download-recap-button" class="btn-info">Unduh Rekap</button>
+            <button id="download-recap-button" class="btn-info">Unduh Rekap</button> <!-- Tetap Unduh Rekap (CSV/Excel) -->
             <button id="delete-recap-button" class="btn-danger">Hapus Rekap Bulan Ini</button>
         </div>
 
@@ -35,10 +39,12 @@
             <table id="recap-table">
                 <thead>
                     <tr id="table-header-row">
-                        </tr>
+                        <!-- Header akan dibuat dinamis oleh JS -->
+                    </tr>
                 </thead>
                 <tbody id="recap-list-body">
-                    </tbody>
+                    <!-- Data rekap akan dimuat di sini -->
+                </tbody>
             </table>
         </div>
     </div>

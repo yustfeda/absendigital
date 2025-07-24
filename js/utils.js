@@ -6,9 +6,10 @@ export function showLoading() {
 }
 
 export function hideLoading() {
+    // Delay 2 detik untuk efek loading
     setTimeout(() => {
         document.getElementById('loading-overlay').classList.remove('active');
-    }, 1000); // Mengurangi delay menjadi 1 detik untuk loading yang lebih cepat
+    }, 2000); // Durasi loading 2 detik
 }
 
 // Inisialisasi Navbar (Sidebar) dan Logout
@@ -16,7 +17,7 @@ export function initializePage(auth, signOutCallback) {
     const hamburgerMenu = document.getElementById("hamburger-menu");
     const sidebar = document.getElementById("sidebar");
     const overlay = document.getElementById("overlay");
-    const pageWrapper = document.querySelector(".page-wrapper");
+    const pageWrapper = document.querySelector(".page-wrapper"); // Elemen pembungkus utama
 
     // Tangani hamburger menu click
     if (hamburgerMenu) {
@@ -70,13 +71,27 @@ export function initializePage(auth, signOutCallback) {
     });
 
     // Handle initial state for desktop (sidebar always visible)
+    // Ini akan dipanggil saat halaman dimuat
     if (window.innerWidth > 768) {
         sidebar.classList.add('active'); // Pastikan sidebar aktif di desktop
-        pageWrapper.classList.add("sidebar-open"); // Dorong konten utama
+        // Tidak perlu menggeser page-wrapper karena sidebar sudah fixed/relative di desktop
     }
+
+    // Tambahkan event listener untuk resize window
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 768) {
+            sidebar.classList.add('active');
+            overlay.classList.remove('active'); // Pastikan overlay tersembunyi di desktop
+            pageWrapper.classList.remove("sidebar-open"); // Pastikan tidak ada margin di desktop
+        } else {
+            sidebar.classList.remove('active'); // Sembunyikan sidebar di mobile secara default
+            overlay.classList.remove('active');
+        }
+    });
 }
 
 // Fungsi untuk mendapatkan data guru dan mapel (hardcoded atau dari database)
+// Ini adalah fallback jika data belum ada di database
 export function getGuruInfo() {
     return {
         name: "Danu Septiana, S.Pd",
@@ -86,7 +101,7 @@ export function getGuruInfo() {
 
 // Fungsi untuk membuat struktur HTML utama (header, sidebar, loading overlay)
 export function createPageLayout(currentPage) {
-    const guruInfo = getGuruInfo(); // Opsional, bisa dihapus jika info guru selalu dari DB
+    // Ikon Font Awesome sudah disertakan di HTML, jadi kita bisa langsung menggunakannya.
     const navItems = [
         { name: "Dashboard", href: "home.html", icon: "fas fa-home" },
         { name: "Absensi", href: "presence.html", icon: "fas fa-user-check" },
@@ -97,7 +112,7 @@ export function createPageLayout(currentPage) {
     let layoutHtml = `
         <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <img src="https://via.placeholder.com/60x60?text=Logo" alt="Logo" style="border-radius: 50%; margin-bottom: 10px;">
+                <img src="https://placehold.co/60x60/4CAF50/FFFFFF?text=ABS" alt="Logo Absensi"> <!-- Logo placeholder -->
                 <h2>Absensi Siswa</h2>
             </div>
             <nav class="sidebar-nav">
@@ -132,19 +147,22 @@ export function createPageLayout(currentPage) {
                     <div class="bar"></div>
                 </div>
                 <div class="app-title">Dashboard - Absensi Siswa</div>
-                <div class="dummy-space"></div> </div>
+                <div class="dummy-space"></div> <!-- Untuk menyeimbangkan layout -->
+            </div>
             <div class="main-content-container">
-                </div>
+                <!-- Konten spesifik halaman akan di sini -->
+            </div>
         </div>
 
         <div class="overlay" id="overlay"></div>
         <div id="loading-overlay"><div class="spinner"></div></div>
     `;
 
-    // Sisipkan layout setelah body, atau sebelum elemen container utama
+    // Sisipkan layout ke dalam body
     document.body.insertAdjacentHTML('afterbegin', `<div class="page-wrapper">${layoutHtml}</div>`);
 
     // Pindahkan konten container yang ada di HTML ke dalam main-content-container
+    // Ini harus dilakukan setelah page-wrapper dan main-content-container dibuat
     const existingContainer = document.querySelector('body > .container'); // Asumsi container utama
     const mainContentContainer = document.querySelector('.main-content-container');
     if (existingContainer && mainContentContainer) {
@@ -165,4 +183,12 @@ export function addFooter() {
         </footer>
     `;
     document.body.insertAdjacentHTML('beforeend', footerHtml);
+}
+
+// Fungsi untuk menambahkan loading overlay di halaman login juga (karena tidak ada layout penuh)
+export function addLoadingOverlayToLogin() {
+    const loginContainer = document.querySelector('.container');
+    if (loginContainer) {
+        loginContainer.insertAdjacentHTML('afterend', '<div id="loading-overlay"><div class="spinner"></div></div>');
+    }
 }
