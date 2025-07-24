@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Absensi Siswa Filial SMPN 2 Cileles</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-content">
+            <div class="logo">
+                <img src="assets/images/logo.png" alt="Logo">
+                <h1>Absensi Siswa</h1>
+            </div>
+            <button class="hamburger-menu" id="hamburger-menu"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <aside class="sidebar" id="sidebar">
+        <ul>
+            <li><a href="#dashboard" class="sidebar-link active" data-page="dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="#attendance" class="sidebar-link" data-page="attendance"><i class="fas fa-clipboard-check"></i> Absensi</a></li>
+            <li><a href="#students" class="sidebar-link" data-page="students"><i class="fas fa-users"></i> Data Siswa</a></li>
+            <li><a href="#reports" class="sidebar-link" data-page="reports"><i class="fas fa-chart-line"></i> Laporan Rekap</a></li>
+            <li><a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+    </aside>
+
+    <main class="content">
+        <section id="dashboard" class="page-content active">
+            <div class="welcome-container">
+                <img src="assets/images/logo.png" alt="Logo" class="welcome-logo">
+                <h2>Selamat Datang di Sistem Absensi Siswa</h2>
+                <p>Gunakan menu di samping untuk mengelola data absensi siswa, melihat laporan, dan data siswa.</p>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> Pantau kehadiran siswa secara real-time.</li>
+                    <li><i class="fas fa-check-circle"></i> Kelola data siswa dengan mudah.</li>
+                    <li><i class="fas fa-check-circle"></i> Hasilkan laporan absensi untuk analisis.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="attendance" class="page-content">
+            <h3>Manajemen Absensi Siswa</h3>
+            <div class="filter-section">
+                <div class="form-group">
+                    <label for="filter-date">Tanggal Absensi:</label>
+                    <input type="date" id="filter-date">
+                </div>
+                <div class="form-group">
+                    <label for="filter-class">Filter Kelas:</label>
+                    <select id="filter-class">
+                        <option value="">Semua Kelas</option>
+                        <option value="X">X</option>
+                        <option value="XI">XI</option>
+                        <option value="XII">XII</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="filter-subject-attendance">Mata Pelajaran:</label>
+                    <input type="text" id="filter-subject-attendance" value="Bahasa Inggris" readonly>
+                    </div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Siswa</th>
+                        <th>Kelas</th>
+                        <th>Status Absensi</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="attendance-list">
+                    </tbody>
+            </table>
+        </section>
+
+        <section id="students" class="page-content">
+            <h3>Data Siswa</h3>
+            <form id="add-student-form">
+                <h4>Tambah Siswa Baru</h4>
+                <div class="form-group">
+                    <label for="student-name">Nama Siswa</label>
+                    <input type="text" id="student-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="student-nisn">NISN</label>
+                    <input type="text" id="student-nisn" required>
+                </div>
+                <div class="form-group">
+                    <label for="student-class">Kelas</label>
+                    <select id="student-class" required>
+                        <option value="">Pilih Kelas</option>
+                        <option value="X">X</option>
+                        <option value="XI">XI</option>
+                        <option value="XII">XII</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary">Tambah Siswa</button>
+            </form>
+
+            <h4>Daftar Siswa</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Siswa</th>
+                        <th>NISN</th>
+                        <th>Kelas</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="student-list">
+                    </tbody>
+            </table>
+        </section>
+
+        <section id="reports" class="page-content">
+            <h3>Laporan Rekap Absensi Bulanan</h3>
+            <div class="filter-section">
+                <div class="form-group">
+                    <label for="report-month">Pilih Bulan:</label>
+                    <input type="month" id="report-month">
+                </div>
+                <div class="form-group">
+                    <label for="report-subject">Mata Pelajaran:</label>
+                    <select id="report-subject">
+                        <option value="Bahasa Inggris">Bahasa Inggris</option>
+                        </select>
+                </div>
+                <div class="form-group">
+                    <label for="report-teacher">Nama Guru Mapel:</label>
+                    <input type="text" id="report-teacher" value="Danu Septiana, S. Pd." readonly>
+                    </div>
+                <button class="btn-primary" id="generate-report-btn">Tampilkan Laporan</button>
+                <button class="btn-primary" id="download-pdf-btn"><i class="fas fa-file-pdf"></i> Unduh PDF</button>
+            </div>
+
+            <div class="report-table-container">
+                <h4 id="report-title">Rekap Absensi Bulan: <span id="current-report-month"></span> - Mata Pelajaran: <span id="current-report-subject"></span></h4>
+                <p id="no-report-data-message" style="display: none; text-align: center; color: #888;">Tidak ada data absensi untuk bulan ini dengan filter yang dipilih.</p>
+                <table id="monthly-report-table">
+                    <thead>
+                        <tr>
+                            <th rowspan="2">No</th>
+                            <th rowspan="2">Nama Siswa</th>
+                            <th rowspan="2">Kelas</th>
+                            </tr>
+                        <tr>
+                            </tr>
+                    </thead>
+                    <tbody id="report-table-body">
+                        </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2025 Absensi Siswa Filial SMPN 2 Cileles. All rights reserved.</p>
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+    </footer>
+
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <p>Memuat...</p>
+    </div>
+
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js"></script>
+
+    <script type="module" src="js/ap.js"></script>
+    <script type="module" src="js/dashboard.js"></script>
+    <script type="module" src="js/attandance.js"></script>
+    <script type="module" src="js/manageData.js"></script>
+    <script type="module" src="js/rekap.js"></script>
+</body>
