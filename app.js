@@ -240,14 +240,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 const selectedClass = attendanceClassSelect.value;
 
                 if (!date || !selectedClass) {
-                    window.showModal("Please select a date and class first.", "alert");
+                    window.showModal("Pilih tanggal dan kelas terlebih dahulu.", "alert");
                     return;
                 }
 
                 const attendanceEntries = {};
                 const statusSelects = document.querySelectorAll('.attendance-status-select');
                 if (statusSelects.length === 0) {
-                    window.showModal("No students to save attendance for.", "alert");
+                    window.showModal("Tidak ada siswa untuk disimpan absensinya.", "alert");
                     return;
                 }
 
@@ -256,17 +256,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     const status = select.value;
                     attendanceEntries[studentId] = {
                         status: status,
-                        timestamp: new Date().toISOString() // Save timestamp when attendance is taken
+                        timestamp: new Date().toISOString() // Simpan timestamp saat absen dilakukan
                     };
                 });
 
                 const attendanceRef = window.getDatabaseRef(db, `artifacts/${window.getAppId()}/users/${userId}/attendance/${selectedClass}/${date}`);
                 await window.setDatabase(attendanceRef, attendanceEntries);
-                window.showModal("Attendance successfully saved!", "alert");
-                console.log("Attendance successfully saved for date", date, "class", selectedClass);
+                window.showModal("Absensi berhasil disimpan!", "alert");
+                console.log("Absensi berhasil disimpan untuk tanggal", date, "kelas", selectedClass);
             } catch (error) {
-                console.error("Failed to save attendance:", error);
-                window.showModal("Failed to save attendance. Please try again.", "alert");
+                console.error("Gagal menyimpan absensi:", error);
+                window.showModal("Gagal menyimpan absensi. Silakan coba lagi.", "alert");
             } finally {
                 window.hideLoading();
             }
@@ -319,8 +319,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 renderStudentTable();
                 updateStudentButtonsState();
             }, (error) => {
-                console.error("Failed to load student data:", error);
-                window.showModal("Failed to load student data. Please try again.", "alert");
+                console.error("Gagal memuat data siswa:", error);
+                window.showModal("Gagal memuat data siswa. Silakan coba lagi.", "alert");
             });
 
             const teachersRef = window.getDatabaseRef(db, `artifacts/${window.getAppId()}/users/${userId}/teachers`);
@@ -329,8 +329,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 renderTeacherTable();
                 updateTeacherButtonsState();
             }, (error) => {
-                console.error("Failed to load teacher data:", error);
-                window.showModal("Failed to load teacher data. Please try again.", "alert");
+                console.error("Gagal memuat data guru:", error);
+                window.showModal("Gagal memuat data guru. Silakan coba lagi.", "alert");
             });
         }
 
@@ -351,7 +351,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <td class="px-6 py-4 whitespace-nowrap text-base font-medium text-gray-900">${student.name}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-base text-gray-700">${student.class}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-center text-base font-medium">
-                            <button data-id="${id}" class="delete-student-btn text-red-600 hover:text-red-800 transition-colors duration-200">Delete</button>
+                            <button data-id="${id}" class="delete-student-btn text-red-600 hover:text-red-800 transition-colors duration-200">Hapus</button>
                         </td>
                     `;
                     studentTableBody.appendChild(row);
@@ -383,7 +383,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <td class="px-6 py-4 whitespace-nowrap text-base font-medium text-gray-900">${teacher.name}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-base text-gray-700">${teacher.subject}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-center text-base font-medium">
-                            <button data-id="${id}" class="delete-teacher-btn text-red-600 hover:text-red-800 transition-colors duration-200">Delete</button>
+                            <button data-id="${id}" class="delete-teacher-btn text-red-600 hover:text-red-800 transition-colors duration-200">Hapus</button>
                         </td>
                     `;
                     teacherTableBody.appendChild(row);
@@ -418,7 +418,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const studentClass = studentClassSelect.value;
 
             if (!name || !studentClass) {
-                window.showModal("Student name and class cannot be empty.", "alert");
+                window.showModal("Nama siswa dan kelas tidak boleh kosong.", "alert");
                 return;
             }
 
@@ -428,7 +428,7 @@ document.addEventListener('DOMContentLoaded', () => {
             renderStudentTable(); // Update table display
             studentNameInput.value = '';
             studentClassSelect.value = '';
-            window.showModal("Student added locally. Click 'Save All Students' to save to the database.", "alert");
+            window.showModal("Siswa ditambahkan secara lokal. Klik 'Simpan Semua Siswa' untuk menyimpan ke database.", "alert");
         }
 
         // Function to add a teacher (locally, then synchronized when saved)
@@ -437,7 +437,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const subject = teacherSubjectInput.value.trim();
 
             if (!name || !subject) {
-                window.showModal("Teacher name and subject cannot be empty.", "alert");
+                window.showModal("Nama guru dan mata pelajaran tidak boleh kosong.", "alert");
                 return;
             }
 
@@ -447,22 +447,22 @@ document.addEventListener('DOMContentLoaded', () => {
             renderTeacherTable(); // Update table display
             teacherNameInput.value = '';
             teacherSubjectInput.value = '';
-            window.showModal("Teacher added locally. Click 'Save All Teachers' to save to the database.", "alert");
+            window.showModal("Guru ditambahkan secara lokal. Klik 'Simpan Semua Guru' untuk menyimpan ke database.", "alert");
         }
 
         // Confirm and delete individual student from Firebase
         function confirmDeleteStudent(studentId) {
-            window.showModal("Are you sure you want to delete this student?", "confirm", async () => {
+            window.showModal("Apakah Anda yakin ingin menghapus siswa ini?", "confirm", async () => {
                 window.showLoading();
                 try {
                     const db = window.firebaseDb;
                     const userId = window.getFirebaseUserId();
                     await window.removeFromDatabase(window.getDatabaseRef(db, `artifacts/${window.getAppId()}/users/${userId}/students/${studentId}`));
                     // The onValue listener will automatically update studentsData and call renderStudentTable
-                    window.showModal("Student successfully deleted.", "alert");
+                    window.showModal("Siswa berhasil dihapus.", "alert");
                 } catch (error) {
-                    console.error("Failed to delete student:", error);
-                    window.showModal("Failed to delete student. Please try again.", "alert");
+                    console.error("Gagal menghapus siswa:", error);
+                    window.showModal("Gagal menghapus siswa. Silakan coba lagi.", "alert");
                 } finally {
                     window.hideLoading();
                 }
@@ -471,17 +471,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Confirm and delete individual teacher from Firebase
         function confirmDeleteTeacher(teacherId) {
-            window.showModal("Are you sure you want to delete this teacher?", "confirm", async () => {
+            window.showModal("Apakah Anda yakin ingin menghapus guru ini?", "confirm", async () => {
                 window.showLoading();
                 try {
                     const db = window.firebaseDb;
                     const userId = window.getFirebaseUserId();
                     await window.removeFromDatabase(window.getDatabaseRef(db, `artifacts/${window.getAppId()}/users/${userId}/teachers/${teacherId}`));
                     // The onValue listener will automatically update teachersData and call renderTeacherTable
-                    window.showModal("Teacher successfully deleted.", "alert");
+                    window.showModal("Guru berhasil dihapus.", "alert");
                 } catch (error) {
-                    console.error("Failed to delete teacher:", error);
-                    window.showModal("Failed to delete teacher. Please try again.", "alert");
+                    console.error("Gagal menghapus guru:", error);
+                    window.showModal("Gagal menghapus guru. Silakan coba lagi.", "alert");
                 } finally {
                     window.hideLoading();
                 }
@@ -495,10 +495,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const db = window.firebaseDb;
                 const userId = window.getFirebaseUserId();
                 await window.setDatabase(window.getDatabaseRef(db, `artifacts/${window.getAppId()}/users/${userId}/students`), studentsData);
-                window.showModal("All student data successfully saved!", "alert");
+                window.showModal("Semua data siswa berhasil disimpan!", "alert");
             } catch (error) {
-                console.error("Failed to save all students:", error);
-                window.showModal("Failed to save all students. Please try again.", "alert");
+                console.error("Gagal menyimpan semua siswa:", error);
+                window.showModal("Gagal menyimpan semua siswa. Silakan coba lagi.", "alert");
             } finally {
                 window.hideLoading();
             }
@@ -506,17 +506,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Confirm and delete all student data from Firebase
         function confirmDeleteAllStudents() {
-            window.showModal("Are you sure you want to delete ALL student data? This action cannot be undone.", "confirm", async () => {
+            window.showModal("Apakah Anda yakin ingin menghapus SEMUA data siswa? Tindakan ini tidak dapat dibatalkan.", "confirm", async () => {
                 window.showLoading();
                 try {
                     const db = window.firebaseDb;
                     const userId = window.getFirebaseUserId();
                     await window.removeFromDatabase(window.getDatabaseRef(db, `artifacts/${window.getAppId()}/users/${userId}/students`));
                     // The onValue listener will automatically clear studentsData and re-render the table
-                    window.showModal("All student data successfully deleted.", "alert");
+                    window.showModal("Semua data siswa berhasil dihapus.", "alert");
                 } catch (error) {
-                    console.error("Failed to delete all students:", error);
-                    window.showModal("Failed to delete all students. Please try again.", "alert");
+                    console.error("Gagal menghapus semua siswa:", error);
+                    window.showModal("Gagal menghapus semua siswa. Silakan coba lagi.", "alert");
                 } finally {
                     window.hideLoading();
                 }
@@ -530,10 +530,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const db = window.firebaseDb;
                 const userId = window.getFirebaseUserId();
                 await window.setDatabase(window.getDatabaseRef(db, `artifacts/${window.getAppId()}/users/${userId}/teachers`), teachersData);
-                window.showModal("All teacher data successfully saved!", "alert");
+                window.showModal("Semua data guru berhasil disimpan!", "alert");
             } catch (error) {
-                console.error("Failed to save all teachers:", error);
-                window.showModal("Failed to save all teachers. Please try again.", "alert");
+                console.error("Gagal menyimpan semua guru:", error);
+                window.showModal("Gagal menyimpan semua guru. Silakan coba lagi.", "alert");
             } finally {
                 window.hideLoading();
             }
@@ -541,17 +541,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Confirm and delete all teacher data from Firebase
         function confirmDeleteAllTeachers() {
-            window.showModal("Are you sure you want to delete ALL teacher data? This action cannot be undone.", "confirm", async () => {
+            window.showModal("Apakah Anda yakin ingin menghapus SEMUA data guru? Tindakan ini tidak dapat dibatalkan.", "confirm", async () => {
                 window.showLoading();
                 try {
                     const db = window.firebaseDb;
                     const userId = window.getFirebaseUserId();
                     await window.removeFromDatabase(window.getDatabaseRef(db, `artifacts/${window.getAppId()}/users/${userId}/teachers`));
                     // The onValue listener will automatically clear teachersData and re-render the table
-                    window.showModal("All teacher data successfully deleted.", "alert");
+                    window.showModal("Semua data guru berhasil dihapus.", "alert");
                 } catch (error) {
-                    console.error("Failed to delete all teachers:", error);
-                    window.showModal("Failed to delete all teachers. Please try again.", "alert");
+                    console.error("Gagal menghapus semua guru:", error);
+                    window.showModal("Gagal menghapus semua guru. Silakan coba lagi.", "alert");
                 } finally {
                     window.hideLoading();
                 }
@@ -607,8 +607,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 renderClassOptions(recapClassSelect, Array.from(classes).sort());
                 renderRecapTable(); // Re-render table after student/class data is updated
             }, (error) => {
-                console.error("Failed to load student data for recap:", error);
-                window.showModal("Failed to load student data for recap. Please try again.", "alert");
+                console.error("Gagal memuat data siswa untuk rekap:", error);
+                window.showModal("Gagal memuat data siswa untuk rekap. Silakan coba lagi.", "alert");
             });
 
             // Listener for teacher data (for teacher dropdown)
@@ -618,8 +618,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 renderTeacherOptions(recapTeacherSelect, teachersData);
                 updateTeacherSignature(); // Update teacher signature
             }, (error) => {
-                console.error("Failed to load teacher data for recap:", error);
-                window.showModal("Failed to load teacher data for recap. Please try again.", "alert");
+                console.error("Gagal memuat data guru untuk rekap:", error);
+                window.showModal("Gagal memuat data guru untuk rekap. Silakan coba lagi.", "alert");
             });
 
             // Listener for attendance data
@@ -628,15 +628,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 attendanceData = snapshot.val() || {};
                 renderRecapTable(); // Re-render table after attendance data is updated
             }, (error) => {
-                console.error("Failed to load attendance data for recap:", error);
-                window.showModal("Failed to load attendance data for recap. Please try again.", "alert");
+                console.error("Gagal memuat data absensi untuk rekap:", error);
+                window.showModal("Gagal memuat data absensi untuk rekap. Silakan coba lagi.", "alert");
             });
         }
 
         // Function to render teacher options in the dropdown
         function renderTeacherOptions(selectElement, teachers) {
             const currentSelectedValue = selectElement.value;
-            selectElement.innerHTML = '<option value="">-- Select Teacher --</option>';
+            selectElement.innerHTML = '<option value="">-- Pilih Guru --</option>';
             for (const id in teachers) {
                 const option = document.createElement('option');
                 option.value = id;
@@ -657,8 +657,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 recapTeacherName.textContent = teachersData[selectedTeacherId].name;
                 recapTeacherSubject.textContent = teachersData[selectedTeacherId].subject;
             } else {
-                recapTeacherName.textContent = '(Teacher Name)';
-                recapTeacherSubject.textContent = '(Subject)';
+                recapTeacherName.textContent = '(Nama Guru)';
+                recapTeacherSubject.textContent = '(Mata Pelajaran)';
             }
             // Show/hide signature area based on whether data is displayed
             if (recapTable.classList.contains('hidden')) {
@@ -675,7 +675,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             recapTableBody.innerHTML = '';
             recapTableHeader.innerHTML = `
-                <th class="px-6 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider rounded-tl-xl">Student Name</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider rounded-tl-xl">Nama Siswa</th>
             `;
             noRecapDataMessage.classList.add('hidden');
             recapTable.classList.add('hidden');
@@ -684,25 +684,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!selectedClass || !selectedMonth) {
                 noRecapDataMessage.classList.remove('hidden');
-                noRecapDataMessage.textContent = "Please select a class and month to view the recap.";
+                noRecapDataMessage.textContent = "Pilih kelas dan bulan untuk melihat rekap.";
                 return;
             }
 
             const [year, month] = selectedMonth.split('-').map(Number);
-            const daysInMonth = new Date(year, month, 0).getDate(); // Get number of days in the month
+            const daysInMonth = new Date(year, month, 0).getDate(); // Mendapatkan jumlah hari dalam bulan
             const datesOfMonth = [];
             for (let i = 1; i <= daysInMonth; i++) {
                 const dateStr = `${year}-${String(month).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
                 datesOfMonth.push(dateStr);
                 const dateObj = new Date(dateStr);
-                const dayName = dateObj.toLocaleString('id-ID', { weekday: 'short' }); // Day name (Mon, Tue, etc.)
+                const dayName = dateObj.toLocaleString('id-ID', { weekday: 'short' }); // Nama hari (Sen, Sel, Dll)
                 recapTableHeader.innerHTML += `<th class="px-2 py-3 text-center text-xs font-medium text-blue-700 uppercase tracking-wider">${dayName} ${i}</th>`;
             }
             recapTableHeader.innerHTML += `
-                <th class="px-6 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider">Present</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider">Absent</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider">Permitted</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider rounded-tr-xl">Sick</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider">Hadir</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider">Alfa</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider">Izin</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider rounded-tr-xl">Sakit</th>
             `;
 
             const filteredStudents = Object.keys(studentsData).filter(
@@ -711,7 +711,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (filteredStudents.length === 0) {
                 noRecapDataMessage.classList.remove('hidden');
-                noRecapDataMessage.textContent = "No students found in this class.";
+                noRecapDataMessage.textContent = "Tidak ada siswa di kelas ini.";
                 return;
             }
 
@@ -728,7 +728,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 datesOfMonth.forEach(date => {
                     const status = attendanceData[selectedClass]?.[date]?.[student.id]?.status || '-';
-                    rowContent += `<td class="px-2 py-4 whitespace-nowrap text-center text-base text-gray-700">${status.charAt(0)}</td>`; // Only first letter
+                    rowContent += `<td class="px-2 py-4 whitespace-nowrap text-center text-base text-gray-700">${status.charAt(0)}</td>`; // Hanya huruf pertama
                     if (status === 'Hadir') hadirCount++;
                     else if (status === 'Alfa') alfaCount++;
                     else if (status === 'Izin') izinCount++;
@@ -759,24 +759,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 recapSignatureArea.classList.remove('hidden');
             } else {
                 noRecapDataMessage.classList.remove('hidden');
-                noRecapDataMessage.textContent = "No attendance data for this class and month.";
+                noRecapDataMessage.textContent = "Tidak ada data absensi untuk kelas dan bulan ini.";
                 recapTable.classList.add('hidden');
                 downloadRecapBtn.disabled = true;
                 recapSignatureArea.classList.add('hidden');
             }
-            updateTeacherSignature(); // Ensure signature is updated after table render
+            updateTeacherSignature(); // Pastikan tanda tangan diperbarui setelah render tabel
         }
 
-        // Function to download recap as CSV file
+        // Fungsi untuk mengunduh rekap sebagai file CSV
         function downloadRecap() {
             const selectedClass = recapClassSelect.value;
             const selectedMonth = recapMonthSelect.value;
             const selectedTeacherId = recapTeacherSelect.value;
-            const teacherName = selectedTeacherId && teachersData[selectedTeacherId] ? teachersData[selectedTeacherId].name : '(Teacher Name)';
-            const teacherSubject = selectedTeacherId && teachersData[selectedTeacherId] ? teachersData[selectedTeacherId].subject : '(Subject)';
+            const teacherName = selectedTeacherId && teachersData[selectedTeacherId] ? teachersData[selectedTeacherId].name : '(Nama Guru)';
+            const teacherSubject = selectedTeacherId && teachersData[selectedTeacherId] ? teachersData[selectedTeacherId].subject : '(Mata Pelajaran)';
 
             if (!selectedClass || !selectedMonth) {
-                window.showModal("Please select a class and month first to download the recap.", "alert");
+                window.showModal("Pilih kelas dan bulan terlebih dahulu untuk mengunduh rekap.", "alert");
                 return;
             }
 
@@ -793,14 +793,14 @@ document.addEventListener('DOMContentLoaded', () => {
             csvContent += `ABSENSI SISWA FILIAL SMPN 2 CILELES\n`;
             csvContent += `Kelas: ${selectedClass}\n`;
             csvContent += `Bulan: ${new Date(year, month - 1).toLocaleString('id-ID', { month: 'long', year: 'numeric' })}\n`;
-            csvContent += `Mata Pelajaran: "${teacherSubject}"\n\n`; // Quote for subject
+            csvContent += `Mata Pelajaran: "${teacherSubject}"\n\n`; // Kutip untuk mapel
 
             // Table header
             let tableHeader = "Nama Siswa";
             datesOfMonth.forEach(day => {
                 const date = new Date(year, month - 1, day);
                 const dayName = date.toLocaleString('id-ID', { weekday: 'short' });
-                tableHeader += `,"${dayName} ${day}"`; // Add quotes for day name with space
+                tableHeader += `,"${dayName} ${day}"`; // Tambahkan kutip untuk nama hari dengan spasi
             });
             tableHeader += ",Hadir,Alfa,Izin,Sakit\n";
             csvContent += tableHeader;
@@ -820,7 +820,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 datesOfMonth.forEach(day => {
                     const dateStr = `${year}-${String(month).padStart(2, '0')}-${day}`;
                     const status = attendanceData[selectedClass]?.[dateStr]?.[student.id]?.status || '-';
-                    rowData += `,${status.charAt(0)}`; // Only first letter
+                    rowData += `,${status.charAt(0)}`; // Hanya huruf pertama
                     if (status === 'Hadir') hadirCount++;
                     else if (status === 'Alfa') alfaCount++;
                     else if (status === 'Izin') izinCount++;
@@ -838,8 +838,8 @@ document.addEventListener('DOMContentLoaded', () => {
             csvContent += ",,,,(_________________________)\n";
             csvContent += "\n\n";
             csvContent += ",,,,Guru Mata Pelajaran:\n";
-            csvContent += `,,,,"${teacherName}"\n`; // Quote if teacher name has spaces
-            csvContent += `,,,,"${teacherSubject}"\n`; // Quote if subject has spaces
+            csvContent += `,,,,"${teacherName}"\n`; // Kutip jika nama guru ada spasi
+            csvContent += `,,,,"${teacherSubject}"\n`; // Kutip jika mapel ada spasi
             csvContent += "\n\n\n"; // Space for signature line
             csvContent += ",,,,(_________________________)\n";
 
@@ -851,7 +851,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            window.showModal("Recap successfully downloaded!", "alert");
+            window.showModal("Rekap absensi berhasil diunduh!", "alert");
         }
     }
 

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beranda - Absen Digital</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Selamat Datang, <span id="guru-name"></span>!</h1>
+        <h2>Mata Pelajaran: <span id="mapel-name"></span></h2>
+        <p style="text-align: center; margin-top: 30px; font-size: 1.1em; color: #555;">
+            Gunakan menu navigasi di samping untuk mengelola absensi siswa.
+        </p>
+        <div style="text-align: center; margin-top: 40px;">
+            <button onclick="window.location.href='presence.html'" class="btn-secondary">Mulai Absensi Hari Ini</button>
+        </div>
+    </div>
+
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/utils.js"></script>
+    <script type="module" src="js/home.js"></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kehadiran Siswa - Absen Digital</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Absensi Siswa</h1>
+        <p style="text-align: center; margin-bottom: 20px;">
+            Tanggal: <strong id="current-date"></strong> | Guru: <strong id="guru-name"></strong> | Mapel: <strong id="mapel-name"></strong>
+        </p>
+
+        <div id="success-message" class="success-message"></div>
+        <div id="error-message" class="error-message"></div>
+
+        <div id="presence-table-container" style="max-height: 500px; overflow-y: auto;">
+            <table id="presence-table">
+                <thead>
+                    <tr>
+                        <th data-label="No">No</th>
+                        <th data-label="Nama Siswa">Nama Siswa</th>
+                        <th data-label="Kelas">Kelas</th>
+                        <th data-label="Kehadiran">Kehadiran</th>
+                    </tr>
+                </thead>
+                <tbody id="presence-list-body">
+                    </tbody>
+            </table>
+        </div>
+        <button id="save-presence-button" style="margin-top: 25px;">Simpan Absensi</button>
+    </div>
+
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/utils.js"></script>
+    <script type="module" src="js/presence.js"></script>
+</body>
+</html>

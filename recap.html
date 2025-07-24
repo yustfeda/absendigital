@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rekap Absen - Absen Digital</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Rekap Absensi Siswa</h1>
+
+        <div id="error-message" class="error-message"></div>
+        <div id="success-message" class="success-message"></div>
+
+        <div class="recap-controls">
+            <div class="form-group">
+                <label for="select-month">Pilih Bulan:</label>
+                <input type="month" id="select-month" value="" required>
+            </div>
+            <div class="form-group">
+                <label for="select-class">Pilih Kelas:</label>
+                <select id="select-class">
+                    <option value="">Semua Kelas</option>
+                    </select>
+            </div>
+            <button id="show-recap-button" class="btn-secondary">Tampilkan Rekap</button>
+            <button id="download-recap-button" class="btn-info">Unduh Rekap</button>
+            <button id="delete-recap-button" class="btn-danger">Hapus Rekap Bulan Ini</button>
+        </div>
+
+        <div id="recap-table-container">
+            <table id="recap-table">
+                <thead>
+                    <tr id="table-header-row">
+                        </tr>
+                </thead>
+                <tbody id="recap-list-body">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/utils.js"></script>
+    <script type="module" src="js/recap.js"></script>
+</body>
+</html>

@@ -1,0 +1,601 @@
+/* css/style.css - Disesuaikan dengan tampilan gambar yang diberikan */
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+:root {
+    --primary-color: #4CAF50; /* Hijau Utama dari gambar */
+    --primary-dark: #388E3C; /* Hijau Lebih Gelap untuk hover/active */
+    --primary-light: #C8E6C9; /* Hijau Sangat Terang untuk latar belakang */
+    --accent-color: #FFC107; /* Kuning (opsional, jika ada elemen aksen) */
+    --text-color-dark: #333;
+    --text-color-light: #f9f9f9;
+    --bg-light: #f9f9f9; /* Latar belakang body/container */
+    --bg-sidebar: #4CAF50; /* Latar belakang sidebar */
+    --border-color: #ddd;
+    --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --shadow-heavy: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-light);
+    color: var(--text-color-dark);
+    line-height: 1.6;
+    display: flex;
+    min-height: 100vh;
+    overflow-x: hidden; /* Mencegah scroll horizontal saat sidebar terbuka */
+}
+
+/* --- Layout Wrapper (untuk membagi sidebar dan konten utama) --- */
+.page-wrapper {
+    display: flex;
+    width: 100%;
+    transition: margin-left 0.3s ease; /* Untuk animasi konten saat sidebar terbuka */
+}
+
+/* --- Sidebar (Navigasi Kiri) --- */
+.sidebar {
+    width: 250px; /* Lebar sidebar */
+    background-color: var(--bg-sidebar);
+    color: var(--text-color-light);
+    padding: 20px 0;
+    box-shadow: var(--shadow-heavy);
+    position: fixed;
+    height: 100%;
+    left: -250px; /* Sembunyikan sidebar secara default */
+    top: 0;
+    z-index: 1100; /* Lebih tinggi dari header */
+    transition: left 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar.active {
+    left: 0; /* Tampilkan sidebar */
+}
+
+.sidebar-header {
+    text-align: center;
+    padding: 15px 0 30px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 20px;
+}
+
+.sidebar-header h2 {
+    color: var(--text-color-light);
+    margin: 0;
+    font-size: 1.6em;
+    font-weight: 500;
+}
+
+.sidebar-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-nav li a {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    color: var(--text-color-light);
+    text-decoration: none;
+    font-size: 1.1em;
+    font-weight: 400;
+    transition: background-color 0.3s ease, padding-left 0.3s ease;
+}
+
+.sidebar-nav li a i { /* Untuk ikon jika ada */
+    margin-right: 15px;
+    font-size: 1.2em;
+}
+
+.sidebar-nav li a:hover,
+.sidebar-nav li a.active {
+    background-color: var(--primary-dark); /* Warna hijau lebih gelap saat hover/active */
+    padding-left: 25px;
+    box-shadow: inset 3px 0 0 var(--accent-color); /* Garis kuning di kiri */
+}
+
+/* Overlay saat sidebar terbuka (untuk klik di luar) */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1099;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* --- Main Content Area --- */
+.main-content-area {
+    flex-grow: 1;
+    margin-left: 0; /* Default: tidak ada margin karena sidebar tersembunyi */
+    transition: margin-left 0.3s ease;
+    display: flex;
+    flex-direction: column; /* Untuk menempatkan header utama di atas konten */
+    width: 100%; /* Memastikan ini mengambil lebar penuh */
+}
+
+/* Top Header (untuk hamburger menu dan judul) */
+.top-header {
+    background-color: var(--primary-color);
+    color: var(--text-color-light);
+    padding: 15px 20px;
+    box-shadow: var(--shadow-light);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1000; /* Di atas konten */
+}
+
+.top-header .hamburger-menu {
+    display: flex; /* Selalu tampilkan di tampilan mobile */
+    flex-direction: column;
+    cursor: pointer;
+    gap: 4px;
+    padding: 5px; /* Tambahkan padding agar mudah diklik */
+}
+
+.top-header .hamburger-menu .bar {
+    width: 25px;
+    height: 3px;
+    background-color: var(--text-color-light);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+/* Burger animation */
+.hamburger-menu.active .bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+.hamburger-menu.active .bar:nth-child(2) {
+    opacity: 0;
+}
+.hamburger-menu.active .bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+.top-header .app-title {
+    font-size: 1.6em;
+    font-weight: 700;
+    flex-grow: 1; /* Biarkan mengisi ruang */
+    text-align: center; /* Pusatkan teks */
+}
+.top-header .dummy-space { /* Untuk menyeimbangkan hamburger menu di kiri */
+    width: 35px; /* Kira-kira lebar hamburger menu + padding */
+}
+
+
+.main-content-container {
+    padding: 25px 20px;
+    flex-grow: 1; /* Mengisi sisa ruang vertikal */
+}
+
+.container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: var(--shadow-light);
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto; /* Pusatkan container */
+    box-sizing: border-box;
+}
+
+h1, h2, h3 {
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 600;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-color-dark);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="month"],
+select {
+    width: calc(100% - 22px);
+    padding: 12px 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 1em;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="month"]:focus,
+select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+    outline: none;
+}
+
+button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-secondary { /* Contoh tombol lain (jika ada) */
+    background-color: #6c757d;
+}
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+}
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.btn-info {
+    background-color: #17a2b8;
+}
+.btn-info:hover {
+    background-color: #138496;
+}
+
+.error-message {
+    color: #dc3545;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 0.9em;
+}
+
+.success-message {
+    color: #28a745;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 0.9em;
+}
+
+/* --- Tabel --- */
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow-light);
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+th {
+    background-color: var(--primary-color); /* Header tabel hijau */
+    color: var(--text-color-light);
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+th:first-child { border-top-left-radius: 8px; }
+th:last-child { border-top-right-radius: 8px; }
+
+tr:nth-child(even) {
+    background-color: #f2f2f2; /* Warna latar belakang baris genap */
+}
+
+tr:hover {
+    background-color: var(--primary-light); /* Hijau muda saat hover */
+    transition: background-color 0.2s ease;
+}
+
+.action-buttons button {
+    margin-right: 8px;
+    padding: 8px 15px;
+    font-size: 0.9em;
+    box-shadow: none;
+    border-radius: 4px;
+}
+.action-buttons button:hover {
+    transform: translateY(0);
+}
+.action-buttons .btn-danger {
+    background-color: #dc3545;
+}
+.action-buttons .btn-danger:hover {
+    background-color: #c82333;
+}
+.action-buttons .btn-secondary { /* Untuk tombol edit */
+    background-color: #6c757d;
+}
+.action-buttons .btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+/* Specific for Presence Page */
+.presence-options label {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 20px;
+    font-weight: normal;
+    cursor: pointer;
+    color: var(--text-color-dark); /* Agar teks opsi terlihat */
+}
+
+.presence-options input[type="radio"] {
+    margin-right: 8px;
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+/* Specific for Recap Page */
+.recap-controls {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    background-color: #fff; /* Latar putih untuk control panel */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-light);
+}
+.recap-controls .form-group {
+    margin-bottom: 0;
+    flex: 1;
+    min-width: 180px;
+}
+.recap-controls button {
+    min-width: 120px;
+}
+
+#recap-table-container {
+    max-height: 600px;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* --- Loading Overlay --- */
+#loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.85); /* Sedikit lebih opaque */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+#loading-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: var(--primary-color);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* --- Footer --- */
+.footer {
+    background-color: var(--primary-color);
+    color: var(--text-color-light);
+    text-align: center;
+    padding: 20px 0;
+    margin-top: auto; /* Push footer ke bawah */
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.footer-social a {
+    color: var(--text-color-light);
+    margin: 0 10px;
+    font-size: 1.5em;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+.footer-social a:hover {
+    color: var(--accent-color); /* Kuning saat hover */
+}
+
+/* --- Responsiveness (Desktop View) --- */
+@media (min-width: 769px) {
+    .sidebar {
+        position: relative; /* Di desktop, sidebar menjadi bagian dari layout normal */
+        left: 0;
+        min-width: 250px; /* Pastikan lebar tetap */
+        height: auto; /* Tidak fixed height */
+        box-shadow: none; /* Hapus shadow saat tidak overlay */
+        padding-top: 50px; /* Sesuaikan padding agar tidak terlalu mepet header */
+        flex-shrink: 0; /* Jangan menyusut */
+    }
+
+    .main-content-area {
+        margin-left: 0; /* Tidak ada margin tambahan */
+    }
+
+    .top-header .hamburger-menu {
+        display: none; /* Sembunyikan hamburger di desktop */
+    }
+    .top-header .app-title {
+        text-align: left; /* Geser judul ke kiri */
+        margin-left: 20px; /* Beri jarak dari kiri */
+    }
+     .top-header .dummy-space {
+        display: none;
+    }
+    .overlay {
+        display: none !important; /* Pastikan overlay tidak muncul */
+    }
+
+    /* Adjust page-wrapper margin if needed, but for fixed sidebar, it's not crucial */
+    .page-wrapper.sidebar-open {
+        margin-left: 250px; /* Menggeser konten utama ke kanan saat sidebar "terbuka" (padahal memang selalu ada) */
+    }
+}
+
+/* --- Responsiveness (Mobile View - sama seperti sebelumnya tapi disesuaikan dengan layout baru) --- */
+@media (max-width: 768px) {
+    body {
+        flex-direction: column; /* Mengatasi flex-row dari page-wrapper */
+    }
+
+    .page-wrapper {
+        flex-direction: column; /* Stacking di mobile */
+        margin-left: 0 !important; /* Pastikan tidak ada margin */
+    }
+
+    .sidebar {
+        /* Tetap position: fixed, left: -250px, tapi full height */
+    }
+
+    .main-content-area {
+        width: 100%; /* Ambil lebar penuh */
+        padding-top: 0; /* Hapus padding-top karena ada top-header */
+    }
+
+    .top-header {
+        position: sticky;
+        top: 0;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .main-content-container {
+        padding: 15px 10px;
+    }
+
+    .container {
+        padding: 20px;
+        margin-top: 15px;
+    }
+
+    button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .recap-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .recap-controls .form-group, .recap-controls button {
+        width: 100%;
+        min-width: auto;
+    }
+
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+
+    thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    tr {
+        border: 1px solid var(--border-color);
+        margin-bottom: 15px;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: var(--shadow-light);
+    }
+
+    td {
+        border: none;
+        border-bottom: 1px solid var(--border-color);
+        position: relative;
+        padding-left: 50%;
+        text-align: right;
+    }
+
+    td:last-child {
+        border-bottom: none;
+    }
+
+    td:before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        width: calc(50% - 20px);
+        padding-right: 10px;
+        white-space: nowrap;
+        text-align: left;
+        font-weight: bold;
+        color: var(--primary-color);
+    }
+
+    .presence-options label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .footer {
+        padding: 15px 0;
+        font-size: 0.9em;
+    }
+}
