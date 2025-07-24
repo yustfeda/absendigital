@@ -3,17 +3,496 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Absensi Siswa</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <script type="module" src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
-    <script type="module" src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js"></script>
-    <script type="module" src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js"></script>
-    <script type="module" src="js/ap.js"></script> </head>
-<body class="homepage">
-    <div class="content-full">
-        <h1>Memuat Aplikasi...</h1>
-        <p>Jika tidak diarahkan secara otomatis, silakan klik <a href="login.html">Login</a> atau <a href="dashboard.html">Dashboard</a>.</p>
+    <meta name="description" content="Website Absen Digital Siswa Filial SMPN 2 Cileles untuk manajemen kehadiran siswa yang mudah dan profesional.">
+    <meta name="keywords" content="absen digital, kehadiran siswa, SMPN 2 Cileles, aplikasi absen, manajemen sekolah">
+    <meta name="author" content="Absen Digital Team">
+    <title>Absen Digital Siswa Filial SMPN 2 Cileles</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Inter dari Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Link ke file CSS kustom -->
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Definisi warna kustom untuk Tailwind */
+        :root {
+            --color-primary-dark: #1A237E;   /* Deep Indigo */
+            --color-primary-medium: #283593; /* Indigo */
+            --color-primary-light: #3F51B5;  /* Medium Indigo */
+            --color-accent-blue: #2196F3;    /* Blue */
+            --color-background-light: #E8F5E9; /* Light Greenish-Blue for a fresh feel */
+            --color-text-dark: #263238;      /* Dark Grey Blue */
+            --color-text-light: #E3F2FD;     /* Lighter Blue */
+            --color-red-danger: #D32F2F;     /* Red */
+            --color-green-success: #4CAF50;  /* Green */
+            --color-grey-border: #CFD8DC;    /* Light Grey Blue */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-background-light);
+            color: var(--color-text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header / Navbar */
+        .navbar {
+            background-color: var(--color-primary-dark);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 50; /* Pastikan di atas konten lain */
+        }
+
+        .navbar a {
+            color: var(--color-text-light);
+            padding: 1rem 1.5rem;
+            display: block;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border-radius: 0.5rem;
+        }
+
+        .navbar a:hover {
+            background-color: var(--color-primary-medium);
+            transform: translateY(-2px);
+        }
+
+        /* Hamburger Menu Icon */
+        .hamburger-icon {
+            display: none; /* Hidden by default, shown on mobile */
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            color: white;
+            font-size: 2rem;
+            z-index: 60; /* Di atas sidebar */
+        }
+        @media (max-width: 768px) {
+            .hamburger-icon {
+                display: block;
+            }
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 280px; /* Lebar sidebar */
+            height: 100%;
+            background-color: var(--color-primary-dark);
+            box-shadow: -4px 0 15px rgba(0, 0, 0, 0.2);
+            transform: translateX(100%); /* Sembunyikan ke kanan */
+            transition: transform 0.4s ease-in-out;
+            z-index: 55; /* Di atas konten utama, di bawah hamburger */
+            padding-top: 5rem; /* Ruang untuk header */
+        }
+
+        .sidebar.open {
+            transform: translateX(0); /* Tampilkan */
+        }
+
+        .sidebar a {
+            color: var(--color-text-light);
+            padding: 1rem 2rem;
+            display: block;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar a:hover {
+            background-color: var(--color-primary-medium);
+        }
+
+        /* Overlay for Sidebar */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
+            z-index: 54; /* Di bawah sidebar */
+        }
+
+        .overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Gaya umum untuk tombol */
+        .btn-primary {
+            background-color: var(--color-accent-blue);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary:hover {
+            background-color: #1976D2; /* Sedikit lebih gelap */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-danger {
+            background-color: var(--color-red-danger);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-danger:hover {
+            background-color: #C62828; /* Sedikit lebih gelap */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-success {
+            background-color: var(--color-green-success);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-success:hover {
+            background-color: #388E3C; /* Sedikit lebih gelap */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Gaya umum untuk input dan select */
+        input[type="text"], input[type="date"], input[type="month"], select {
+            border: 1px solid var(--color-grey-border);
+            padding: 0.85rem 1.25rem;
+            border-radius: 0.75rem;
+            width: 100%;
+            box-sizing: border-box;
+            background-color: white;
+            font-size: 1rem;
+            color: var(--color-text-dark);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input[type="text"]:focus, input[type="date"]:focus, input[type="month"]:focus, select:focus {
+            outline: none;
+            border-color: var(--color-accent-blue);
+            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.25); /* Shadow biru */
+        }
+
+        /* Gaya untuk card/kontainer utama */
+        .card {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 1.25rem; /* Lebih membulat */
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12); /* Bayangan lebih dalam dan lembut */
+        }
+
+        /* Gaya untuk tabel */
+        .table-container {
+            overflow-x: auto;
+            border-radius: 1.25rem;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+            background-color: white;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        th, td {
+            padding: 1.1rem 1.75rem;
+            text-align: left;
+            border-bottom: 1px solid #E0E0E0;
+        }
+
+        th {
+            background-color: #BBDEFB; /* Light Blue for header */
+            font-weight: 700;
+            color: var(--color-primary-dark);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        th:first-child { border-top-left-radius: 1.25rem; }
+        th:last-child { border-top-right-radius: 1.25rem; }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Gaya untuk modal */
+        .modal {
+            display: flex;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7); /* Lebih gelap */
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 3rem;
+            border-radius: 1.25rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            width: 90%;
+            max-width: 550px;
+            text-align: center;
+            position: relative;
+            transform: translateY(-30px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+
+        .close-button {
+            color: #90A4AE;
+            position: absolute;
+            top: 1.5rem;
+            right: 2rem;
+            font-size: 2.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: var(--color-red-danger);
+        }
+
+        .loading-spinner {
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid var(--color-accent-blue);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 30px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--color-primary-dark);
+            color: var(--color-text-light);
+            padding: 2rem 1.5rem;
+            margin-top: auto; /* Push footer to the bottom */
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
+        }
+    </style>
+</head>
+<body class="bg-blue-50">
+    <nav class="navbar p-4 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" id="nav-home" class="text-3xl font-extrabold text-white">Absen Digital</a>
+
+            <!-- Hamburger Icon for Mobile -->
+            <button id="hamburger-btn" class="hamburger-icon md:hidden focus:outline-none">
+                &#9776; <!-- Hamburger Unicode Character -->
+            </button>
+
+            <!-- Desktop Navigation Links -->
+            <div class="hidden md:flex space-x-6 text-lg">
+                <a href="#" id="nav-home-link" class="font-medium hover:bg-blue-700 px-4 py-2 rounded-lg">Beranda</a>
+                <a href="#" id="nav-attendance-link" class="font-medium hover:bg-blue-700 px-4 py-2 rounded-lg">Kehadiran Siswa</a>
+                <a href="#" id="nav-manage-data-link" class="font-medium hover:bg-blue-700 px-4 py-2 rounded-lg">Manage Data</a>
+                <a href="#" id="nav-recap-link" class="font-medium hover:bg-blue-700 px-4 py-2 rounded-lg">Rekap</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar Navigation for Mobile -->
+    <div id="sidebar" class="sidebar md:hidden">
+        <div class="flex justify-end p-4">
+            <button id="close-sidebar-btn" class="text-white text-3xl focus:outline-none">&times;</button>
+        </div>
+        <a href="#" id="sidebar-home-link" class="font-medium">Beranda</a>
+        <a href="#" id="sidebar-attendance-link" class="font-medium">Kehadiran Siswa</a>
+        <a href="#" id="sidebar-manage-data-link" class="font-medium">Manage Data</a>
+        <a href="#" id="sidebar-recap-link" class="font-medium">Rekap</a>
     </div>
+    <div id="overlay" class="overlay"></div>
+
+    <main id="app-content" class="container mx-auto p-6 mt-8 flex-grow">
+        <!-- Konten halaman akan dimuat di sini oleh JavaScript -->
+        <div id="loading-indicator" class="loading-spinner hidden"></div>
+    </main>
+
+    <!-- Modal untuk konfirmasi atau pesan -->
+    <div id="app-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <p id="modal-message" class="text-xl font-semibold mb-6 text-gray-800"></p>
+            <div id="modal-buttons" class="flex justify-center space-x-4">
+                <!-- Tombol akan ditambahkan secara dinamis -->
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center text-sm">
+        <div class="container mx-auto">
+            <p>&copy; 2025 Absen Digital Siswa Filial SMPN 2 Cileles. Hak Cipta Dilindungi.</p>
+            <p class="mt-2">Dibuat dengan &#10084; untuk pendidikan.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getDatabase, ref, push, set, onValue, remove, update } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+
+        // Global variables for Firebase
+        let app;
+        let db;
+        let auth;
+        let userId;
+        let isAuthReady = false;
+
+        // Firebase configuration and initialization
+        // __app_id, __firebase_config, __initial_auth_token are provided by the Canvas environment
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+            // Placeholder for your Firebase config. REPLACE WITH YOUR ACTUAL CONFIG!
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID",
+            databaseURL: "YOUR_DATABASE_URL" // Crucial for Realtime Database
+        };
+
+        // Initialize Firebase app
+        app = initializeApp(firebaseConfig);
+        db = getDatabase(app);
+        auth = getAuth(app);
+
+        // Authenticate user and set userId
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                userId = user.uid;
+                console.log("Authenticated as:", userId);
+            } else {
+                console.log("No user signed in. Attempting anonymous sign-in or custom token.");
+                try {
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                        userId = auth.currentUser.uid;
+                        console.log("Signed in with custom token:", userId);
+                    } else {
+                        await signInAnonymously(auth);
+                        userId = auth.currentUser.uid;
+                        console.log("Signed in anonymously:", userId);
+                    }
+                } catch (error) {
+                    console.error("Firebase authentication error:", error);
+                    // Fallback to a random ID if authentication fails, but this data won't be persistent
+                    userId = crypto.randomUUID();
+                    console.log("Using random ID as fallback due to auth error:", userId);
+                    window.showModal("Gagal autentikasi dengan Firebase. Data mungkin tidak tersimpan secara persisten.", "alert");
+                }
+            }
+            isAuthReady = true;
+            // Dispatch a custom event to notify app.js that Firebase is ready
+            window.dispatchEvent(new CustomEvent('firebaseAuthReady', { detail: { db, auth, userId } }));
+        });
+
+        // Expose Firebase objects and functions to the global scope for app.js
+        window.firebaseApp = app;
+        window.firebaseDb = db;
+        window.firebaseAuth = auth;
+        window.getFirebaseUserId = () => userId;
+        window.isFirebaseAuthReady = () => isAuthReady;
+        window.getDatabaseRef = ref;
+        window.pushToDatabase = push;
+        window.setDatabase = set;
+        window.onDatabaseValue = onValue;
+        window.removeFromDatabase = remove;
+        window.updateDatabase = update;
+        window.getAppId = () => appId; // Expose appId
+
+        // Modal functions (global for easy access)
+        window.showModal = function(message, type = 'alert', onConfirm = null) {
+            const modal = document.getElementById('app-modal');
+            const modalMessage = document.getElementById('modal-message');
+            const modalButtons = document.getElementById('modal-buttons');
+
+            modalMessage.textContent = message;
+            modalButtons.innerHTML = ''; // Clear previous buttons
+
+            if (type === 'confirm') {
+                const confirmBtn = document.createElement('button');
+                confirmBtn.className = 'btn-primary px-6 py-2 rounded-md';
+                confirmBtn.textContent = 'Ya';
+                confirmBtn.onclick = () => {
+                    closeModal();
+                    if (onConfirm) onConfirm();
+                };
+                modalButtons.appendChild(confirmBtn);
+
+                const cancelBtn = document.createElement('button');
+                cancelBtn.className = 'btn-danger px-6 py-2 rounded-md';
+                cancelBtn.textContent = 'Tidak';
+                cancelBtn.onclick = closeModal;
+                modalButtons.appendChild(cancelBtn);
+            } else { // 'alert' type
+                const okBtn = document.createElement('button');
+                okBtn.className = 'btn-primary px-6 py-2 rounded-md';
+                okBtn.textContent = 'OK';
+                okBtn.onclick = closeModal;
+                modalButtons.appendChild(okBtn);
+            }
+
+            modal.classList.add('show'); // Show modal with transition
+        }
+
+        window.closeModal = function() {
+            document.getElementById('app-modal').classList.remove('show'); // Hide modal with transition
+        }
+
+        window.showLoading = function() {
+            document.getElementById('loading-indicator').classList.remove('hidden');
+        }
+
+        window.hideLoading = function() {
+            document.getElementById('loading-indicator').classList.add('hidden');
+        }
+    </script>
+    <!-- Link ke file JavaScript utama aplikasi -->
+    <script type="module" src="app.js"></script>
 </body>
 </html>

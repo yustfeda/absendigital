@@ -1,0 +1,68 @@
+<div class="card mb-8">
+    <h2 class="text-4xl md:text-5xl font-extrabold text-blue-800 mb-8 text-center">Rekap Absensi Bulanan</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="form-group">
+            <label for="recap-class-select" class="block text-gray-700 text-base font-semibold mb-2">Pilih Kelas:</label>
+            <select id="recap-class-select" class="w-full">
+                <option value="">-- Pilih Kelas --</option>
+                <!-- Opsi kelas akan dimuat secara dinamis oleh JavaScript -->
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="recap-month-select" class="block text-gray-700 text-base font-semibold mb-2">Pilih Bulan:</label>
+            <input type="month" id="recap-month-select" class="w-full">
+        </div>
+        <div class="form-group">
+            <label for="recap-teacher-select" class="block text-gray-700 text-base font-semibold mb-2">Pilih Guru Mata Pelajaran:</label>
+            <select id="recap-teacher-select" class="w-full">
+                <option value="">-- Pilih Guru --</option>
+                <!-- Opsi guru akan dimuat secara dinamis oleh JavaScript -->
+            </select>
+        </div>
+    </div>
+
+    <div id="recap-table-container" class="table-container min-h-[250px] flex flex-col justify-center items-center p-4">
+        <p id="no-recap-data-message" class="text-gray-600 text-center py-8 text-lg hidden">
+            Pilih kelas dan bulan untuk menampilkan rekap absensi.
+        </p>
+        <table id="recap-table" class="min-w-full hidden">
+            <thead class="bg-blue-100">
+                <tr id="recap-table-header">
+                    <th class="px-6 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider rounded-tl-xl">Nama Siswa</th>
+                    <!-- Tanggal akan dimuat secara dinamis oleh JavaScript -->
+                    <th class="px-6 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider">Hadir</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider">Alfa</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider">Izin</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-blue-700 uppercase tracking-wider rounded-tr-xl">Sakit</th>
+                </tr>
+            </thead>
+            <tbody id="recap-table-body" class="bg-white divide-y divide-gray-200">
+                <!-- Baris rekap akan dimuat secara dinamis oleh JavaScript -->
+            </tbody>
+        </table>
+    </div>
+
+    <div class="flex justify-end mt-8">
+        <button id="download-recap-btn" class="btn-primary flex items-center space-x-2 text-lg px-6 py-3" disabled>
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l3-3m-3 3l-3-3m-3 8h12a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+            <span>Unduh Rekap</span>
+        </button>
+    </div>
+
+    <div id="recap-signature-area" class="recap-footer hidden">
+        <div class="signature-block">
+            <p class="font-semibold text-lg text-gray-800">Mengetahui,</p>
+            <p class="font-semibold text-lg text-gray-800 mb-1">Kepala Sekolah</p>
+            <div class="signature-line"></div>
+            <p class="signature-label">(_________________________)</p>
+        </div>
+        <div class="signature-block">
+            <p class="font-semibold text-lg text-gray-800">Guru Mata Pelajaran:</p>
+            <p id="recap-teacher-name" class="font-semibold text-lg text-gray-800 mb-1">(Nama Guru)</p>
+            <p id="recap-teacher-subject" class="signature-label">(Mata Pelajaran)</p>
+            <div class="signature-line"></div>
+            <p class="signature-label">(_________________________)</p>
+        </div>
+    </div>
+</div>
