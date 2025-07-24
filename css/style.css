@@ -17,10 +17,15 @@
     --shadow-heavy: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
-body {
-    font-family: 'Roboto', sans-serif;
+/* Pastikan html dan body mengambil tinggi penuh viewport */
+html, body {
+    height: 100%;
     margin: 0;
     padding: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
     background-color: var(--bg-light);
     color: var(--text-color-dark);
     line-height: 1.6;
@@ -34,9 +39,10 @@ body {
 /* Ini adalah kontainer utama yang akan menjadi flex-row di desktop */
 .page-wrapper {
     display: flex;
-    width: 100%;
-    flex-grow: 1; /* Memastikan page-wrapper mengisi ruang yang tersedia */
-    transition: margin-left 0.3s ease; /* Untuk animasi konten saat sidebar terbuka */
+    flex-grow: 1; /* Memastikan page-wrapper mengisi ruang vertikal yang tersedia */
+    width: 100%; /* Ambil lebar penuh */
+    /* Secara default (mobile), ini akan menjadi flex-direction: column */
+    flex-direction: column; /* Default untuk mobile: sidebar (fixed) dan main-content-area (di bawahnya) */
 }
 
 /* --- Sidebar (Navigasi Kiri) --- */
@@ -47,7 +53,7 @@ body {
     padding: 20px 0;
     box-shadow: var(--shadow-heavy); /* Efek shadow yang lebih kuat */
     position: fixed; /* Sidebar fixed di mobile */
-    height: 100%;
+    height: 100%; /* Ambil tinggi penuh di mobile */
     left: -250px; /* Sembunyikan sidebar secara default di mobile */
     top: 0;
     z-index: 1100; /* Lebih tinggi dari header */
@@ -134,11 +140,9 @@ body {
 /* --- Main Content Area (Konten utama yang beradaptasi) --- */
 .main-content-area {
     flex-grow: 1; /* Memastikan konten utama mengisi sisa ruang horizontal di desktop */
-    margin-left: 0; /* Default: tidak ada margin karena sidebar tersembunyi di mobile */
-    transition: margin-left 0.3s ease;
+    width: 100%; /* Ambil lebar penuh yang tersedia */
     display: flex;
-    flex-direction: column; /* Menumpuk header, konten, dan footer (jika ada di sini) secara vertikal */
-    width: 100%; /* Memastikan ini mengambil lebar penuh yang tersedia */
+    flex-direction: column; /* Menumpuk header dan main-content-container secara vertikal */
 }
 
 /* Top Header (untuk hamburger menu dan judul aplikasi) */
@@ -420,7 +424,7 @@ tr:hover {
     border: 1px solid var(--border-color);
     border-radius: 8px;
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
-    overflow-x: auto;
+    overflow-x: auto; /* Memungkinkan scroll horizontal */
     -webkit-overflow-scrolling: touch;
 }
 
@@ -488,29 +492,26 @@ tr:hover {
 
 /* --- Responsiveness (Desktop View) --- */
 @media (min-width: 769px) {
-    body {
-        flex-direction: row; /* Di desktop, body menjadi row untuk sidebar dan konten */
-    }
-
+    /* Di desktop, body tetap flex-direction: column untuk menumpuk page-wrapper dan footer */
+    /* page-wrapper akan menjadi flex-row untuk sidebar dan main-content-area */
     .page-wrapper {
-        flex-direction: row; /* page-wrapper juga row */
-        /* Pastikan page-wrapper tidak memiliki max-width yang membatasi */
-        max-width: none;
+        flex-direction: row; /* Sidebar dan konten utama berdampingan */
+        max-width: none; /* Hapus batasan lebar maksimal jika ada */
     }
 
     .sidebar {
-        position: relative; /* Di desktop, sidebar menjadi bagian dari layout normal */
+        position: relative; /* Sidebar menjadi bagian dari aliran dokumen */
         left: 0; /* Pastikan terlihat */
         min-width: 250px; /* Lebar tetap untuk sidebar */
-        height: auto; /* Tidak fixed height */
-        box-shadow: none; /* Hapus shadow saat tidak overlay */
+        height: auto; /* Tinggi menyesuaikan konten */
+        box-shadow: none; /* Hapus shadow yang mungkin mengganggu di desktop */
         padding-top: 50px; /* Sesuaikan padding agar tidak terlalu mepet header */
         flex-shrink: 0; /* Jangan menyusut */
     }
 
     .main-content-area {
         margin-left: 0; /* Tidak ada margin tambahan */
-        flex-grow: 1; /* Pastikan ini mengisi semua ruang yang tersisa */
+        flex-grow: 1; /* Pastikan ini mengisi semua ruang horizontal yang tersisa */
         width: auto; /* Biarkan flex-grow menentukan lebar */
     }
 
@@ -528,13 +529,10 @@ tr:hover {
         display: none !important; /* Pastikan overlay tidak muncul */
     }
 
-    .page-wrapper.sidebar-open {
-        margin-left: 0; /* Tidak perlu menggeser konten utama jika sidebar fixed */
-    }
-
     /* Pastikan container di dalam main-content-container tetap di tengah dan tidak menyusut */
     .main-content-container {
         align-items: center; /* Tetap pusatkan konten */
+        padding-top: 25px; /* Sesuaikan padding atas jika perlu, agar tidak terlalu mepet header */
     }
     .container {
         width: 100%; /* Ambil lebar penuh dari main-content-container */
@@ -544,14 +542,7 @@ tr:hover {
 
 /* --- Responsiveness (Mobile View) --- */
 @media (max-width: 768px) {
-    body {
-        flex-direction: column; /* Body kembali menumpuk vertikal di mobile */
-    }
-
-    .page-wrapper {
-        flex-direction: column; /* page-wrapper juga menumpuk di mobile */
-        margin-left: 0 !important; /* Pastikan tidak ada margin */
-    }
+    /* Body dan page-wrapper sudah flex-direction: column secara default */
 
     .sidebar {
         /* Tetap position: fixed, left: -250px, tapi full height */
@@ -570,7 +561,7 @@ tr:hover {
     }
 
     .main-content-container {
-        padding: 15px 10px;
+        padding: 15px 10px; /* Padding lebih kecil di mobile */
     }
 
     .container {
@@ -579,12 +570,12 @@ tr:hover {
     }
 
     button {
-        width: 100%;
+        width: 100%; /* Tombol mengambil lebar penuh di mobile */
         margin-bottom: 10px;
     }
 
     .recap-controls {
-        flex-direction: column;
+        flex-direction: column; /* Kontrol rekap menumpuk di mobile */
         align-items: stretch;
     }
     .recap-controls .form-group, .recap-controls button {
@@ -607,7 +598,7 @@ tr:hover {
 
     th, td {
         padding: 10px;
-        white-space: nowrap;
+        white-space: nowrap; /* Mencegah teks pecah baris di sel tabel */
     }
 
     #student-list-table-container,
