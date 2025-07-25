@@ -112,7 +112,7 @@ export function createPageLayout(currentPage) {
     let layoutHtml = `
         <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <img src="https://placehold.co/60x60/4CAF50/FFFFFF?text=ABS" alt="Logo Absensi"> <!-- Logo placeholder -->
+                <img src="assets/lebak.png" alt="Logo Absensi"> <!-- Logo placeholder -->
                 <h2>Absensi Siswa</h2>
             </div>
             <nav class="sidebar-nav">

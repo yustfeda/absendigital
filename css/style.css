@@ -1,20 +1,26 @@
-/* css/style.css - Disesuaikan untuk tampilan profesional dan responsif */
+/* css/style.css - Disesuaikan untuk tampilan profesional, responsif, dan elegan dengan tema biru */
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+/* Import font Montserrat dari Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-    --primary-color: #4CAF50; /* Hijau Utama */
-    --primary-dark: #388E3C; /* Hijau Lebih Gelap untuk hover/active */
-    --primary-light: #C8E6C9; /* Hijau Sangat Terang untuk latar belakang */
-    --accent-color: #FFC107; /* Kuning (opsional, untuk aksen atau highlight) */
-    --text-color-dark: #333;
-    --text-color-light: #f9f9f9;
-    --bg-light: #f9f9f9; /* Latar belakang body/container */
-    --bg-sidebar: #4CAF50; /* Latar belakang sidebar */
-    --border-color: #ddd;
-    --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.1);
-    --shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.15);
-    --shadow-heavy: 0 6px 20px rgba(0, 0, 0, 0.2);
+    /* Tema Warna Biru */
+    --primary-color: #007BFF; /* Biru Utama */
+    --primary-dark: #0056b3; /* Biru Lebih Gelap untuk hover/active */
+    --primary-light: #E0F2FF; /* Biru Sangat Terang untuk latar belakang */
+    --accent-color: #28a745; /* Hijau untuk aksen/sukses */
+    --danger-color: #dc3545; /* Merah untuk bahaya/error */
+    --info-color: #17a2b8; /* Cyan untuk info */
+
+    --text-color-dark: #343a40; /* Teks gelap */
+    --text-color-light: #f8f9fa; /* Teks terang */
+    --bg-light: #f0f2f5; /* Latar belakang body/container yang lebih modern */
+    --bg-card: #ffffff; /* Latar belakang card/container utama */
+    --bg-sidebar: #007BFF; /* Latar belakang sidebar (biru utama) */
+    --border-color: #ced4da; /* Warna border umum yang lebih halus */
+    --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-medium: 0 8px 25px rgba(0, 0, 0, 0.12);
+    --shadow-heavy: 0 12px 30px rgba(0, 0, 0, 0.18);
 }
 
 /* Pastikan html dan body mengambil tinggi penuh viewport */
@@ -25,7 +31,7 @@ html, body {
 }
 
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Montserrat', sans-serif; /* Menggunakan font Montserrat */
     background-color: var(--bg-light);
     color: var(--text-color-dark);
     line-height: 1.6;
@@ -33,22 +39,21 @@ body {
     flex-direction: column; /* Menumpuk konten secara vertikal: page-wrapper di atas, footer di bawah */
     min-height: 100vh; /* Memastikan body setidaknya setinggi viewport */
     overflow-x: hidden; /* Mencegah scroll horizontal yang tidak diinginkan */
+    font-size: 16px; /* Ukuran font default untuk desktop */
 }
 
 /* --- Layout Wrapper (untuk membagi sidebar dan konten utama) --- */
-/* Ini adalah kontainer utama yang akan menjadi flex-row di desktop */
 .page-wrapper {
     display: flex;
     flex-grow: 1; /* Memastikan page-wrapper mengisi ruang vertikal yang tersedia */
     width: 100%; /* Ambil lebar penuh */
-    /* Secara default (mobile), ini akan menjadi flex-direction: column */
     flex-direction: column; /* Default untuk mobile: sidebar (fixed) dan main-content-area (di bawahnya) */
 }
 
 /* --- Sidebar (Navigasi Kiri) --- */
 .sidebar {
     width: 250px; /* Lebar sidebar */
-    background-color: var(--bg-sidebar);
+    background: linear-gradient(to bottom, #007BFF, #0056b3); /* Gradient biru */
     color: var(--text-color-light);
     padding: 20px 0;
     box-shadow: var(--shadow-heavy); /* Efek shadow yang lebih kuat */
@@ -57,7 +62,7 @@ body {
     left: -250px; /* Sembunyikan sidebar secara default di mobile */
     top: 0;
     z-index: 1100; /* Lebih tinggi dari header */
-    transition: left 0.3s ease-in-out;
+    transition: left 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Animasi lebih hidup */
     display: flex;
     flex-direction: column;
 }
@@ -74,19 +79,22 @@ body {
 }
 
 .sidebar-header img {
-    width: 60px;
-    height: 60px;
+    width: 70px; /* Ukuran logo lebih besar */
+    height: 70px;
     border-radius: 50%;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     object-fit: cover;
-    border: 2px solid var(--accent-color); /* Border aksen untuk logo */
+    border: 3px solid var(--accent-color); /* Border aksen yang lebih menonjol */
+    box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.2); /* Efek glow ringan */
 }
 
 .sidebar-header h2 {
     color: var(--text-color-light);
     margin: 0;
-    font-size: 1.6em;
-    font-weight: 500;
+    font-size: 1.8em; /* Ukuran judul lebih besar */
+    font-weight: 700; /* Lebih tebal */
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .sidebar-nav ul {
@@ -102,8 +110,9 @@ body {
     color: var(--text-color-light);
     text-decoration: none;
     font-size: 1.1em;
-    font-weight: 400;
-    transition: background-color 0.3s ease, padding-left 0.3s ease;
+    font-weight: 500; /* Lebih tebal dari sebelumnya */
+    transition: background-color 0.3s ease, padding-left 0.3s ease, color 0.3s ease;
+    border-left: 5px solid transparent; /* Border default transparan */
 }
 
 .sidebar-nav li a i {
@@ -111,12 +120,21 @@ body {
     font-size: 1.2em;
 }
 
-.sidebar-nav li a:hover,
-.sidebar-nav li a.active {
-    background-color: var(--primary-dark); /* Warna hijau lebih gelap saat hover/active */
-    padding-left: 25px;
-    box-shadow: inset 3px 0 0 var(--accent-color); /* Garis kuning di kiri */
+.sidebar-nav li a:hover {
+    background-color: var(--primary-dark); /* Warna biru lebih gelap saat hover */
+    padding-left: 25px; /* Sedikit bergeser ke kanan */
+    border-left-color: var(--accent-color); /* Garis aksen hijau */
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2); /* Efek shadow internal */
 }
+
+.sidebar-nav li a.active {
+    background-color: var(--primary-dark);
+    padding-left: 25px;
+    border-left-color: var(--accent-color);
+    font-weight: 700; /* Lebih tebal saat aktif */
+    color: var(--accent-color); /* Teks aktif berwarna aksen */
+}
+
 
 /* Overlay saat sidebar terbuka (untuk klik di luar) */
 .overlay {
@@ -125,7 +143,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.6); /* Lebih gelap */
     z-index: 1099;
     opacity: 0;
     visibility: hidden;
@@ -147,7 +165,7 @@ body {
 
 /* Top Header (untuk hamburger menu dan judul aplikasi) */
 .top-header {
-    background-color: var(--primary-color);
+    background: linear-gradient(to right, #007BFF, #0056b3); /* Gradient biru */
     color: var(--text-color-light);
     padding: 15px 20px;
     box-shadow: var(--shadow-medium); /* Shadow untuk header */
@@ -155,6 +173,8 @@ body {
     align-items: center;
     justify-content: space-between;
     z-index: 1000;
+    position: sticky; /* Sticky header untuk mobile */
+    top: 0;
 }
 
 .top-header .hamburger-menu {
@@ -163,6 +183,10 @@ body {
     cursor: pointer;
     gap: 4px;
     padding: 5px;
+    transition: transform 0.3s ease; /* Animasi klik */
+}
+.top-header .hamburger-menu:hover {
+    transform: scale(1.1);
 }
 
 .top-header .hamburger-menu .bar {
@@ -185,10 +209,15 @@ body {
 }
 
 .top-header .app-title {
-    font-size: 1.6em;
+    font-size: 1.6em; /* Ukuran font default untuk desktop, akan disesuaikan di mobile */
     font-weight: 700;
     flex-grow: 1;
     text-align: center;
+    letter-spacing: 0.5px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    white-space: nowrap; /* Mencegah teks pecah baris */
+    overflow: hidden; /* Sembunyikan overflow */
+    text-overflow: ellipsis; /* Tambahkan elipsis jika teks terlalu panjang */
 }
 .top-header .dummy-space {
     width: 35px; /* Untuk menyeimbangkan hamburger menu di kiri */
@@ -204,22 +233,33 @@ body {
 }
 
 .container {
-    background-color: #fff;
+    background-color: var(--bg-card);
     padding: 30px;
-    border-radius: 10px;
-    box-shadow: var(--shadow-light); /* Shadow untuk container utama */
+    border-radius: 12px; /* Sudut lebih membulat */
+    box-shadow: var(--shadow-medium); /* Shadow yang lebih menonjol */
     width: 100%; /* Ambil lebar penuh dari main-content-container */
     max-width: 900px; /* Batasi lebar maksimal untuk estetika */
     margin: 0 auto; /* Pusatkan container */
     box-sizing: border-box;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animasi hover */
+}
+.container:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-heavy);
 }
 
+
 h1, h2, h3 {
-    color: var(--primary-color);
+    color: var(--primary-dark); /* Warna judul lebih gelap dari primary */
     text-align: center;
     margin-bottom: 25px;
-    font-weight: 600;
+    font-weight: 700; /* Lebih tebal */
+    text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.05);
 }
+h1 { font-size: 2.5em; } /* Ukuran H1 lebih besar di desktop */
+h2 { font-size: 1.8em; }
+h3 { font-size: 1.4em; }
+
 
 .form-group {
     margin-bottom: 20px;
@@ -228,7 +268,7 @@ h1, h2, h3 {
 label {
     display: block;
     margin-bottom: 8px;
-    font-weight: 500;
+    font-weight: 600; /* Label lebih tebal */
     color: var(--text-color-dark);
 }
 
@@ -240,10 +280,11 @@ select {
     width: calc(100% - 22px);
     padding: 12px 10px;
     border: 1px solid var(--border-color);
-    border-radius: 6px;
+    border-radius: 8px; /* Sudut input lebih membulat */
     box-sizing: border-box;
     font-size: 1em;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: #fcfcfc; /* Latar belakang input sedikit lebih terang */
 }
 
 input[type="text"]:focus,
@@ -252,27 +293,28 @@ input[type="password"]:focus,
 input[type="month"]:focus,
 select:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+    box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.25); /* Efek glow biru */
     outline: none;
 }
 
 button {
     background-color: var(--primary-color);
-    color: white;
+    color: var(--text-color-light);
     padding: 12px 25px;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px; /* Sudut tombol lebih membulat */
     cursor: pointer;
     font-size: 1em;
-    font-weight: 500;
+    font-weight: 600; /* Tombol lebih tebal */
     transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Shadow lebih kuat */
+    letter-spacing: 0.5px;
 }
 
 button:hover {
     background-color: var(--primary-dark);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-3px); /* Efek angkat */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25); /* Shadow lebih besar saat hover */
 }
 
 .btn-secondary {
@@ -283,21 +325,21 @@ button:hover {
 }
 
 .btn-danger {
-    background-color: #dc3545;
+    background-color: var(--danger-color);
 }
 .btn-danger:hover {
     background-color: #c82333;
 }
 
 .btn-info {
-    background-color: #17a2b8;
+    background-color: var(--info-color);
 }
 .btn-info:hover {
     background-color: #138496;
 }
 
 .error-message {
-    color: #dc3545;
+    color: var(--danger-color);
     background-color: #f8d7da;
     border: 1px solid #f5c6cb;
     padding: 10px;
@@ -305,10 +347,11 @@ button:hover {
     text-align: center;
     margin-bottom: 15px;
     font-size: 0.9em;
+    animation: fadeIn 0.5s ease-out; /* Animasi muncul */
 }
 
 .success-message {
-    color: #28a745;
+    color: var(--accent-color);
     background-color: #d4edda;
     border: 1px solid #c3e6cb;
     padding: 10px;
@@ -316,6 +359,12 @@ button:hover {
     text-align: center;
     margin-bottom: 15px;
     font-size: 0.9em;
+    animation: fadeIn 0.5s ease-out; /* Animasi muncul */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* --- Tabel --- */
@@ -324,9 +373,9 @@ table {
     border-collapse: separate;
     border-spacing: 0;
     margin-top: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    overflow: hidden;
+    background-color: var(--bg-card);
+    border-radius: 10px; /* Sudut tabel membulat */
+    overflow: hidden; /* Penting untuk border-radius di tabel */
     box-shadow: var(--shadow-light);
 }
 
@@ -340,17 +389,18 @@ th, td {
 th {
     background-color: var(--primary-color);
     color: var(--text-color-light);
-    font-weight: 600;
+    font-weight: 700; /* Header tabel lebih tebal */
     position: sticky;
     top: 0;
     z-index: 10;
+    text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.1);
 }
 
-th:first-child { border-top-left-radius: 8px; }
-th:last-child { border-top-right-radius: 8px; }
+th:first-child { border-top-left-radius: 10px; }
+th:last-child { border-top-right-radius: 10px; }
 
 tr:nth-child(even) {
-    background-color: #f2f2f2;
+    background-color: #f8f9fa; /* Warna striping yang lebih terang */
 }
 
 tr:hover {
@@ -361,7 +411,7 @@ tr:hover {
 .action-buttons {
     display: flex;
     flex-wrap: nowrap;
-    gap: 5px;
+    gap: 8px; /* Jarak antar tombol lebih besar */
     justify-content: flex-start;
     align-items: center;
     min-width: 120px;
@@ -369,12 +419,14 @@ tr:hover {
 
 .action-buttons button {
     margin-right: 0;
-    padding: 6px 10px;
-    font-size: 0.85em;
+    padding: 8px 12px; /* Padding tombol aksi lebih besar */
+    font-size: 0.9em; /* Ukuran font tombol aksi sedikit lebih besar */
     flex-shrink: 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 .action-buttons button:hover {
-    transform: translateY(0);
+    transform: translateY(-1px); /* Efek angkat lebih kecil */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 
@@ -383,15 +435,20 @@ tr:hover {
     display: inline-flex;
     align-items: center;
     margin-right: 20px;
-    font-weight: normal;
+    font-weight: 500;
     cursor: pointer;
     color: var(--text-color-dark);
+    transition: color 0.2s ease;
+}
+.presence-options label:hover {
+    color: var(--primary-color);
 }
 
 .presence-options input[type="radio"] {
     margin-right: 8px;
     transform: scale(1.2);
     cursor: pointer;
+    accent-color: var(--primary-color); /* Warna radio button */
 }
 
 /* Specific for Recap Page */
@@ -401,9 +458,9 @@ tr:hover {
     margin-bottom: 25px;
     align-items: flex-end;
     flex-wrap: wrap;
-    background-color: #fff;
+    background-color: var(--bg-card);
     padding: 20px;
-    border-radius: 8px;
+    border-radius: 10px;
     box-shadow: var(--shadow-light);
 }
 .recap-controls .form-group {
@@ -422,7 +479,7 @@ tr:hover {
     max-height: 600px;
     overflow-y: auto;
     border: 1px solid var(--border-color);
-    border-radius: 8px;
+    border-radius: 10px;
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
     overflow-x: auto; /* Memungkinkan scroll horizontal */
     -webkit-overflow-scrolling: touch;
@@ -435,7 +492,7 @@ tr:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.85);
+    background-color: rgba(255, 255, 255, 0.9); /* Lebih opaque */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -451,11 +508,11 @@ tr:hover {
 }
 
 .spinner {
-    border: 4px solid rgba(0, 0, 0, 0.1);
+    border: 6px solid rgba(0, 123, 255, 0.2); /* Warna spinner sesuai tema */
     border-left-color: var(--primary-color);
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 50px; /* Ukuran spinner lebih besar */
+    height: 50px;
     animation: spin 1s linear infinite;
 }
 
@@ -465,29 +522,31 @@ tr:hover {
 
 /* --- Footer --- */
 .footer {
-    background-color: var(--primary-color);
+    background-color: var(--primary-dark); /* Footer menggunakan warna biru gelap */
     color: var(--text-color-light);
     text-align: center;
-    padding: 20px 0;
+    padding: 25px 0; /* Padding lebih besar */
     margin-top: auto; /* Ini penting untuk mendorong footer ke bawah */
-    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.15); /* Shadow lebih kuat */
     width: 100%; /* Pastikan footer mengambil lebar penuh */
     box-sizing: border-box; /* Pastikan padding dihitung dalam lebar */
+    font-size: 0.95em;
 }
 
 .footer-social {
-    margin-top: 10px;
+    margin-top: 15px;
 }
 
 .footer-social a {
     color: var(--text-color-light);
-    margin: 0 10px;
-    font-size: 1.5em;
+    margin: 0 12px;
+    font-size: 1.6em; /* Ukuran ikon sosial lebih besar */
     text-decoration: none;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease, transform 0.2s ease;
 }
 .footer-social a:hover {
     color: var(--accent-color);
+    transform: translateY(-3px) scale(1.1); /* Efek angkat dan sedikit membesar */
 }
 
 /* --- Responsiveness (Desktop View) --- */
@@ -515,6 +574,11 @@ tr:hover {
         width: auto; /* Biarkan flex-grow menentukan lebar */
     }
 
+    .top-header {
+        position: relative; /* Header tidak sticky di desktop */
+        background: var(--primary-color); /* Bisa gradient atau solid */
+        box-shadow: var(--shadow-medium);
+    }
     .top-header .hamburger-menu {
         display: none; /* Sembunyikan hamburger di desktop */
     }
@@ -538,11 +602,19 @@ tr:hover {
         width: 100%; /* Ambil lebar penuh dari main-content-container */
         max-width: 900px; /* Batasi lebar maksimal untuk estetika */
     }
+
+    body {
+        font-size: 16px; /* Ukuran font default untuk desktop */
+    }
 }
 
 /* --- Responsiveness (Mobile View) --- */
 @media (max-width: 768px) {
     /* Body dan page-wrapper sudah flex-direction: column secara default */
+
+    body {
+        font-size: 14px; /* Ukuran font lebih kecil di mobile */
+    }
 
     .sidebar {
         /* Tetap position: fixed, left: -250px, tapi full height */
@@ -550,15 +622,23 @@ tr:hover {
 
     .main-content-area {
         width: 100%; /* Ambil lebar penuh */
-        padding-top: 0; /* Hapus padding-top karena ada top-header */
+        /* padding-top tidak lagi diperlukan di sini karena top-header sudah sticky */
     }
 
     .top-header {
-        position: sticky;
+        position: sticky; /* Header sticky di mobile */
         top: 0;
         width: 100%;
         box-sizing: border-box;
     }
+    .top-header .app-title {
+        font-size: 1.2em; /* Font judul header lebih kecil di mobile */
+        text-align: center; /* Tetap di tengah */
+        white-space: nowrap; /* Mencegah teks pecah baris */
+        overflow: hidden; /* Sembunyikan overflow */
+        text-overflow: ellipsis; /* Tambahkan elipsis jika teks terlalu panjang */
+    }
+
 
     .main-content-container {
         padding: 15px 10px; /* Padding lebih kecil di mobile */
@@ -567,16 +647,33 @@ tr:hover {
     .container {
         padding: 20px;
         margin-top: 15px;
+        border-radius: 8px; /* Sudut lebih kecil di mobile */
+    }
+
+    h1 { font-size: 2em; } /* Ukuran H1 disesuaikan */
+    h2 { font-size: 1.5em; }
+    h3 { font-size: 1.2em; }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="month"],
+    select {
+        padding: 10px; /* Padding input lebih kecil */
+        font-size: 0.9em;
     }
 
     button {
         width: 100%; /* Tombol mengambil lebar penuh di mobile */
         margin-bottom: 10px;
+        padding: 10px 15px;
+        font-size: 0.9em;
     }
 
     .recap-controls {
         flex-direction: column; /* Kontrol rekap menumpuk di mobile */
         align-items: stretch;
+        padding: 15px;
     }
     .recap-controls .form-group, .recap-controls button {
         width: 100%;
@@ -609,11 +706,16 @@ tr:hover {
 
     .presence-options label {
         display: inline-flex;
-        margin-right: 15px;
+        margin-right: 10px; /* Jarak radio button lebih kecil */
+        font-size: 0.9em;
     }
 
     .footer {
         padding: 15px 0;
-        font-size: 0.9em;
+        font-size: 0.8em; /* Ukuran font footer lebih kecil */
+    }
+    .footer-social a {
+        font-size: 1.3em; /* Ukuran ikon sosial lebih kecil */
+        margin: 0 8px;
     }
 }
