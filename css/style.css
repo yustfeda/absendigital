@@ -23,11 +23,14 @@
     --shadow-heavy: 0 12px 30px rgba(0, 0, 0, 0.18);
 }
 
-/* Pastikan html dan body mengambil tinggi penuh viewport */
+/* Pastikan html dan body mengambil tinggi penuh viewport dan lebar penuh */
 html, body {
     height: 100%;
     margin: 0;
     padding: 0;
+    width: 100%; /* Explicitly set width to 100% */
+    min-width: 100%; /* Ensure it doesn't shrink below 100% */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
 }
 
 body {
@@ -367,7 +370,7 @@ button:hover {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* --- Tabel --- */
+/* --- Tabel Umum --- */
 table {
     width: 100%;
     border-collapse: separate;
@@ -383,7 +386,7 @@ th, td {
     padding: 15px;
     text-align: left;
     border-bottom: 1px solid var(--border-color);
-    min-width: 80px;
+    min-width: 80px; /* Default min-width, akan di-override spesifik */
 }
 
 th {
@@ -408,48 +411,103 @@ tr:hover {
     transition: background-color 0.2s ease;
 }
 
-.action-buttons {
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 8px; /* Jarak antar tombol lebih besar */
-    justify-content: flex-start;
-    align-items: center;
-    min-width: 120px;
+/* --- Styling Khusus untuk Tabel di Halaman Manage Data --- */
+#student-list-table th:first-child,
+#student-list-table td:first-child {
+    width: 50px; /* Lebar tetap untuk kolom nomor */
+    min-width: 50px;
+    max-width: 50px;
+    text-align: center; /* Pusatkan nomor */
 }
 
-.action-buttons button {
-    margin-right: 0;
-    padding: 8px 12px; /* Padding tombol aksi lebih besar */
-    font-size: 0.9em; /* Ukuran font tombol aksi sedikit lebih besar */
-    flex-shrink: 0;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+#student-list-table th:nth-child(2), /* Nama Siswa */
+#student-list-table td:nth-child(2) {
+    min-width: 180px; /* Beri ruang lebih untuk nama siswa */
 }
-.action-buttons button:hover {
+
+#student-list-table th:nth-child(3), /* NISN */
+#student-list-table td:nth-child(3) {
+    min-width: 120px; /* Beri ruang lebih untuk NISN */
+}
+
+#student-list-table th:nth-child(4), /* Kelas */
+#student-list-table td:nth-child(4) {
+    width: 100px; /* Lebar yang lebih fit untuk kolom kelas */
+    min-width: 100px;
+    max-width: 100px;
+}
+
+#student-list-table .action-buttons {
+    display: flex;
+    flex-wrap: nowrap; /* Pastikan tombol tidak wrap */
+    gap: 5px; /* Jarak antar ikon */
+    justify-content: flex-start;
+    align-items: center;
+    min-width: 90px; /* Cukup untuk 2 ikon kecil */
+}
+
+#student-list-table .action-buttons button {
+    margin-right: 0;
+    padding: 6px 8px; /* Padding tombol aksi untuk ikon */
+    font-size: 0.9em; /* Ukuran font ikon */
+    flex-shrink: 0; /* Jangan menyusut */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: auto; /* Biarkan lebar menyesuaikan ikon */
+    height: auto;
+    display: flex; /* Untuk memusatkan ikon */
+    justify-content: center;
+    align-items: center;
+}
+#student-list-table .action-buttons button:hover {
     transform: translateY(-1px); /* Efek angkat lebih kecil */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 
-/* Specific for Presence Page */
-.presence-options label {
-    display: inline-flex;
-    align-items: center;
-    margin-right: 20px;
-    font-weight: 500;
-    cursor: pointer;
-    color: var(--text-color-dark);
-    transition: color 0.2s ease;
-}
-.presence-options label:hover {
-    color: var(--primary-color);
+/* --- Styling Khusus untuk Tabel di Halaman Kehadiran (Presence) --- */
+#presence-table th:first-child,
+#presence-table td:first-child {
+    width: 50px;
+    min-width: 50px;
+    max-width: 50px;
+    text-align: center;
 }
 
-.presence-options input[type="radio"] {
-    margin-right: 8px;
-    transform: scale(1.2);
-    cursor: pointer;
-    accent-color: var(--primary-color); /* Warna radio button */
+#presence-table th:nth-child(2), /* Nama Siswa */
+#presence-table td:nth-child(2) {
+    min-width: 200px; /* Cukup lebar untuk nama siswa */
 }
+
+#presence-table th:nth-child(3), /* Kelas */
+#presence-table td:nth-child(3) {
+    width: 120px; /* Lebar yang lebih pas untuk kelas */
+    min-width: 120px;
+    max-width: 120px;
+}
+
+#presence-table th:nth-child(4), /* Kehadiran */
+#presence-table td:nth-child(4) {
+    min-width: 300px; /* Cukup lebar untuk semua opsi kehadiran */
+}
+
+#presence-table .presence-options {
+    display: flex;
+    flex-wrap: nowrap; /* Mencegah opsi radio button pecah baris */
+    gap: 8px; /* Jarak antar grup radio button */
+    align-items: center;
+}
+
+#presence-table .presence-options input[type="radio"] {
+    margin-right: 8px; /* Jarak antara radio button dan label */
+    transform: scale(1.1); /* Sedikit lebih besar agar mudah disentuh */
+}
+
+#presence-table .presence-options label {
+    margin-right: 0; /* Hapus margin tambahan */
+    white-space: nowrap; /* Pastikan label tetap dalam satu baris */
+    font-size: 0.9em; /* Ukuran font sedikit lebih kecil agar lebih ringkas */
+}
+
 
 /* Specific for Recap Page */
 .recap-controls {
@@ -473,6 +531,7 @@ tr:hover {
 }
 
 /* Container untuk tabel agar bisa di-scroll horizontal di mobile */
+/* Ini sangat penting untuk memastikan scroll horizontal berfungsi */
 #student-list-table-container,
 #presence-table-container,
 #recap-table-container {
@@ -482,7 +541,7 @@ tr:hover {
     border-radius: 10px;
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
     overflow-x: auto; /* Memungkinkan scroll horizontal */
-    -webkit-overflow-scrolling: touch;
+    -webkit-overflow-scrolling: touch; /* Untuk smooth scrolling di iOS */
 }
 
 /* --- Loading Overlay --- */
@@ -525,12 +584,22 @@ tr:hover {
     background-color: var(--primary-dark); /* Footer menggunakan warna biru gelap */
     color: var(--text-color-light);
     text-align: center;
-    padding: 25px 0; /* Padding lebih besar */
-    margin-top: auto; /* Ini penting untuk mendorong footer ke bawah */
-    box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.15); /* Shadow lebih kuat */
-    width: 100%; /* Pastikan footer mengambil lebar penuh */
-    box-sizing: border-box; /* Pastikan padding dihitung dalam lebar */
+    padding: 25px 0; /* Vertical padding */
+    margin-top: auto; /* Push footer to the bottom */
+    box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.15); /* Stronger shadow */
+    width: 100%; /* Take full width of its parent (body) */
+    box-sizing: border-box; /* Include padding in width calculation */
     font-size: 0.95em;
+}
+
+/* Add horizontal padding to the content inside the footer to prevent it from touching edges */
+/* This ensures content is centered and not full width, while background is full width */
+.footer p, .footer-social {
+    padding: 0 20px; /* Add 20px horizontal padding to content */
+    box-sizing: border-box;
+    max-width: 900px; /* Limit content width for readability, similar to .container */
+    margin-left: auto; /* Center the content */
+    margin-right: auto;
 }
 
 .footer-social {
@@ -605,6 +674,20 @@ tr:hover {
 
     body {
         font-size: 16px; /* Ukuran font default untuk desktop */
+    }
+
+    /* Ensure footer is full width on desktop */
+    .footer {
+        width: 100%; /* Take full width of its parent (body) */
+        max-width: none; /* Override any potential max-width */
+        padding: 25px 0; /* Maintain vertical padding */
+    }
+    /* Ensure footer content is padded and centered on desktop */
+    .footer p, .footer-social {
+        padding: 0 20px; /* Add horizontal padding to content */
+        max-width: 900px; /* Limit content width for readability */
+        margin-left: auto;
+        margin-right: auto;
     }
 }
 
@@ -694,7 +777,7 @@ tr:hover {
     }
 
     th, td {
-        padding: 10px;
+        padding: 10px; /* Padding sel tabel lebih kecil di mobile */
         white-space: nowrap; /* Mencegah teks pecah baris di sel tabel */
     }
 

@@ -177,8 +177,8 @@ export function addFooter() {
             <p>&copy; 2025 Absensi Siswa Filial SMPN 2 Cileles. All rights reserved.</p>
             <div class="footer-social">
                 <a href="#"><i class="fab fa-facebook-f"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="https://wa.me/085817938860"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://www.instagram.com/yustdanus_?igsh=MmNkdjV4cGdubHBn"><i class="fab fa-instagram"></i></a>
             </div>
         </footer>
     `;
