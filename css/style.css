@@ -414,7 +414,7 @@ tr:hover {
 /* --- Styling Khusus untuk Tabel di Halaman Manage Data --- */
 #student-list-table th:first-child,
 #student-list-table td:first-child {
-    width: 50px; /* Lebar tetap untuk kolom nomor */
+    width: 20px; /* Lebar tetap untuk kolom nomor */
     min-width: 50px;
     max-width: 50px;
     text-align: center; /* Pusatkan nomor */
@@ -467,21 +467,21 @@ tr:hover {
 /* --- Styling Khusus untuk Tabel di Halaman Kehadiran (Presence) --- */
 #presence-table th:first-child,
 #presence-table td:first-child {
-    width: 50px;
-    min-width: 50px;
+    width: 10px;
+    min-width: 20px;
     max-width: 50px;
     text-align: center;
 }
 
 #presence-table th:nth-child(2), /* Nama Siswa */
 #presence-table td:nth-child(2) {
-    min-width: 200px; /* Cukup lebar untuk nama siswa */
+    min-width: 170px; /* Cukup lebar untuk nama siswa */
 }
 
 #presence-table th:nth-child(3), /* Kelas */
 #presence-table td:nth-child(3) {
-    width: 120px; /* Lebar yang lebih pas untuk kelas */
-    min-width: 120px;
+    width: 70px; /* Lebar yang lebih pas untuk kelas */
+    min-width: 60px;
     max-width: 120px;
 }
 
@@ -678,8 +678,9 @@ tr:hover {
 
     /* Ensure footer is full width on desktop */
     .footer {
+        display: block;
         width: 100%; /* Take full width of its parent (body) */
-        max-width: none; /* Override any potential max-width */
+        max-width: 100%; /* Override any potential max-width */
         padding: 25px 0; /* Maintain vertical padding */
     }
     /* Ensure footer content is padded and centered on desktop */
